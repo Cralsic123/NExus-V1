@@ -10,7 +10,7 @@ class User(Base):
     username = Column(String, unique=True, nullable=False)
     email = Column(String, unique=True, nullable=False)
 
-    password = Column(String, nullable=False)
+    password = Column(String(100000), nullable=False)
 
     avatar = Column(String, default="default.png")
 

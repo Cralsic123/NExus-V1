@@ -1265,6 +1265,73 @@ body {
 .fw-700 { font-weight: 700; }
 </style>
 </head>
+<script>
+async function loadPosts() {
+
+    const response = await fetch(
+        "http://127.0.0.1:8000/posts/"
+    )
+
+    const posts = await response.json()
+
+    const container = document.getElementById(
+        "dynamic-posts"
+    )
+
+    container.innerHTML = ""
+
+    posts.reverse().forEach(post => {
+
+        container.innerHTML += `
+        
+        <div class="post-card">
+            <div class="post-inner">
+
+                <div class="post-vote">
+                    <button class="vote-btn">
+                        <i class="fas fa-arrow-up"></i>
+                    </button>
+
+                    <span class="vote-count">
+                        ${post.votes || 0}
+                    </span>
+
+                    <button class="vote-btn">
+                        <i class="fas fa-arrow-down"></i>
+                    </button>
+                </div>
+
+                <div class="post-body">
+
+                    <div class="post-meta">
+                        <span class="community-tag">
+                            Community #${post.community_id}
+                        </span>
+
+                        <span class="post-author">
+                            posted by User #${post.user_id}
+                        </span>
+                    </div>
+
+                    <div class="post-title">
+                        ${post.title}
+                    </div>
+
+                    <div class="post-preview">
+                        ${post.content}
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        `
+    })
+}
+
+loadPosts()
+</script>
 <body>
 
 <div id="app">
@@ -1359,6 +1426,7 @@ body {
               <button class="filter-btn" onclick="setFilter(this,'rising')"><i class="fas fa-chart-line"></i> Rising</button>
             </div>
           </div>
+          <div id="dynamic-posts"></div>
 
           <!-- POST 1 — VIDEO CLIP -->
           <div class="post-card">
