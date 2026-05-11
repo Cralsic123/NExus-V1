@@ -1,0 +1,2539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS — One Platform. All Gamers.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+/* ═══════════════════════════════════════════
+   NEXUS DESIGN SYSTEM
+═══════════════════════════════════════════ */
+:root {
+  --bg-void: #05040f;
+  --bg-deep: #07060f;
+  --bg-surface: #0d0b1a;
+  --bg-elevated: #131128;
+  --bg-card: #181530;
+
+  --purple: #7c3aed;
+  --purple-light: #a78bfa;
+  --purple-dim: rgba(124,58,237,0.15);
+  --teal: #00c8a0;
+  --teal-dim: rgba(0,200,160,0.12);
+  --blue: #3b82f6;
+  --blue-dim: rgba(59,130,246,0.12);
+  --red: #ef4444;
+  --amber: #f59e0b;
+  --green: #22c55e;
+
+  --text-primary: #e8e6ff;
+  --text-secondary: rgba(232,230,255,0.55);
+  --text-muted: rgba(232,230,255,0.3);
+
+  --border: rgba(124,58,237,0.18);
+  --border-hover: rgba(124,58,237,0.4);
+
+  --font-display: 'Orbitron', monospace;
+  --font-body: 'Rajdhani', sans-serif;
+  --radius: 4px;
+  --radius-lg: 8px;
+
+  --sidebar-w: 240px;
+  --topbar-h: 56px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg-void);
+  color: var(--text-primary);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* SCROLLBARS */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 2px; }
+
+/* ═══════════════════════════════════════════
+   LAYOUT SHELL
+═══════════════════════════════════════════ */
+#app { display: flex; flex-direction: column; height: 100vh; }
+
+/* TOPBAR */
+#topbar {
+  height: var(--topbar-h);
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+  flex-shrink: 0;
+  z-index: 100;
+  position: relative;
+}
+.logo {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 4px;
+  color: #fff;
+  margin-right: 8px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.logo span { color: var(--purple); }
+
+.search-bar {
+  flex: 1;
+  max-width: 400px;
+  position: relative;
+}
+.search-bar input {
+  width: 100%;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 13px;
+  padding: 7px 12px 7px 34px;
+  outline: none;
+  border-radius: var(--radius);
+  letter-spacing: 0.5px;
+  transition: border-color 0.2s;
+}
+.search-bar input:focus { border-color: var(--purple); }
+.search-bar i {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.topbar-nav {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+  justify-content: center;
+}
+.topbar-nav button {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 7px 14px;
+  cursor: pointer;
+  border-radius: var(--radius);
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.topbar-nav button:hover { background: var(--purple-dim); color: var(--purple-light); }
+.topbar-nav button.active { background: var(--purple-dim); color: var(--purple-light); border-bottom: 2px solid var(--purple); }
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+.icon-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  transition: all 0.15s;
+  position: relative;
+}
+.icon-btn:hover { border-color: var(--purple); color: var(--purple-light); }
+.notif-dot {
+  position: absolute;
+  top: 5px; right: 5px;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--red);
+}
+.avatar-btn {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 2px solid var(--purple);
+  background: var(--purple-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--purple-light);
+  cursor: pointer;
+}
+.btn {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 7px 16px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+}
+.btn-primary { background: var(--purple); color: #fff; }
+.btn-primary:hover { background: #6d28d9; }
+.btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); }
+.btn-ghost:hover { border-color: var(--purple); color: var(--purple-light); }
+.btn-live { background: var(--red); color: #fff; display: flex; align-items: center; gap: 6px; }
+.btn-live:hover { background: #dc2626; }
+
+/* MAIN CONTENT AREA */
+#main { display: flex; flex: 1; overflow: hidden; }
+
+/* LEFT SIDEBAR */
+#sidebar {
+  width: var(--sidebar-w);
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+.sidebar-section { padding: 12px 8px 4px; }
+.sidebar-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0 8px 6px;
+  font-weight: 700;
+}
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  transition: all 0.15s;
+  border: 1px solid transparent;
+  position: relative;
+}
+.sidebar-item:hover { background: var(--purple-dim); color: var(--text-primary); }
+.sidebar-item.active { background: var(--purple-dim); color: var(--purple-light); border-color: var(--border); }
+.sidebar-item i { width: 16px; text-align: center; font-size: 13px; }
+.sidebar-item .badge {
+  margin-left: auto;
+  background: var(--purple);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 10px;
+}
+.sidebar-item .live-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--red);
+  margin-left: auto;
+  animation: pulse-dot 1.5s infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+.sidebar-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 8px 12px;
+}
+.game-avatar {
+  width: 24px; height: 24px;
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+/* CONTENT PANE */
+#content {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* PAGE SYSTEM */
+.page { display: none; }
+.page.active { display: flex; flex-direction: column; height: 100%; }
+
+/* ═══════════════════════════════════════════
+   HOME / FEED PAGE
+═══════════════════════════════════════════ */
+#page-home {
+  flex-direction: row !important;
+}
+.feed-col {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+.feed-sidebar {
+  width: 300px;
+  overflow-y: auto;
+  padding: 20px 16px;
+  border-left: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.feed-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.feed-filters {
+  display: flex;
+  gap: 6px;
+}
+.filter-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  cursor: pointer;
+  border-radius: var(--radius);
+  transition: all 0.15s;
+}
+.filter-btn:hover, .filter-btn.active { background: var(--purple-dim); border-color: var(--purple); color: var(--purple-light); }
+
+/* POST CARD */
+.post-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.post-card:hover { border-color: var(--border-hover); }
+
+.post-vote {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 8px;
+  gap: 4px;
+  background: var(--bg-elevated);
+  min-width: 44px;
+}
+.vote-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px;
+  border-radius: 2px;
+  transition: all 0.15s;
+}
+.vote-btn:hover, .vote-btn.up { color: var(--purple-light); }
+.vote-btn.down { color: var(--red); }
+.vote-count { font-size: 12px; font-weight: 700; color: var(--text-secondary); }
+
+.post-inner { display: flex; }
+.post-body { padding: 12px 14px; flex: 1; }
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+.community-tag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--purple-light);
+  background: var(--purple-dim);
+  padding: 2px 8px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.community-tag:hover { background: rgba(124,58,237,0.25); }
+.post-author { font-size: 11px; color: var(--text-muted); }
+.post-time { font-size: 11px; color: var(--text-muted); }
+.post-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  line-height: 1.3;
+  cursor: pointer;
+}
+.post-title:hover { color: var(--purple-light); }
+.post-preview {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+.post-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+  background: var(--bg-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+.post-image.clip { cursor: pointer; position: relative; overflow: hidden; }
+.clip-play {
+  position: absolute;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: rgba(124,58,237,0.85);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; color: #fff;
+  pointer-events: none;
+}
+.post-actions {
+  display: flex;
+  gap: 4px;
+}
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 5px 8px;
+  cursor: pointer;
+  border-radius: var(--radius);
+  transition: all 0.15s;
+  text-transform: uppercase;
+}
+.action-btn:hover { background: var(--purple-dim); color: var(--purple-light); }
+.post-flair {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-bottom: 6px;
+}
+.flair-clip { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+.flair-discussion { background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(0,200,160,0.3); }
+.flair-guide { background: var(--blue-dim); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
+.flair-news { background: rgba(245,158,11,0.12); color: var(--amber); border: 1px solid rgba(245,158,11,0.3); }
+.flair-shareplay { background: rgba(59,130,246,0.12); color: #93c5fd; border: 1px solid rgba(59,130,246,0.25); }
+
+/* FEED SIDEBAR WIDGETS */
+.widget {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.widget-title {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+.trending-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(124,58,237,0.08);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.trending-item:last-child { border-bottom: none; }
+.trending-item:hover .trending-name { color: var(--purple-light); }
+.trending-rank { font-size: 12px; color: var(--text-muted); width: 16px; text-align: center; font-weight: 700; }
+.trending-icon { width: 30px; height: 30px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.trending-name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+.trending-members { font-size: 11px; color: var(--text-muted); }
+.trending-arrow { margin-left: auto; font-size: 11px; color: var(--text-muted); }
+
+.live-stream-mini {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(124,58,237,0.08);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.live-stream-mini:last-child { border-bottom: none; }
+.live-stream-mini:hover { opacity: 0.85; }
+.stream-thumb {
+  width: 50px; height: 28px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.stream-thumb-bar {
+  width: 4px;
+  background: var(--purple);
+  border-radius: 2px;
+  animation: bar-mini 1s ease-in-out infinite;
+}
+.stream-thumb-bar:nth-child(2) { animation-delay: 0.15s; }
+.stream-thumb-bar:nth-child(3) { animation-delay: 0.3s; background: var(--teal); }
+.stream-thumb-bar:nth-child(4) { animation-delay: 0.45s; }
+.stream-thumb-bar:nth-child(5) { animation-delay: 0.6s; background: var(--purple-light); }
+@keyframes bar-mini {
+  0%, 100% { height: 8px; }
+  50% { height: 20px; }
+}
+.stream-info { flex: 1; min-width: 0; }
+.stream-name { font-size: 12px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stream-game-label { font-size: 10px; color: var(--text-muted); letter-spacing: 0.5px; }
+.stream-viewers { font-size: 10px; color: var(--red); font-weight: 700; letter-spacing: 0.5px; }
+.live-badge-mini {
+  background: var(--red);
+  color: #fff;
+  font-size: 8px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 2px;
+  letter-spacing: 1px;
+}
+
+/* ═══════════════════════════════════════════
+   LIVE STREAMING PAGE
+═══════════════════════════════════════════ */
+#page-live { flex-direction: row !important; }
+
+.stream-main {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.stream-viewport {
+  background: #000;
+  width: 100%;
+  aspect-ratio: 16/9;
+  max-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.stream-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  color: var(--text-muted);
+}
+.stream-viz {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 80px;
+}
+.stream-viz-bar {
+  width: 10px;
+  background: var(--purple);
+  border-radius: 3px 3px 0 0;
+  animation: stream-bar 1.2s ease-in-out infinite;
+}
+.stream-viz-bar:nth-child(1) { animation-delay: 0s; }
+.stream-viz-bar:nth-child(2) { animation-delay: 0.1s; background: var(--purple-light); }
+.stream-viz-bar:nth-child(3) { animation-delay: 0.2s; }
+.stream-viz-bar:nth-child(4) { animation-delay: 0.3s; background: var(--teal); }
+.stream-viz-bar:nth-child(5) { animation-delay: 0.4s; }
+.stream-viz-bar:nth-child(6) { animation-delay: 0.5s; background: var(--purple-light); }
+.stream-viz-bar:nth-child(7) { animation-delay: 0.6s; }
+.stream-viz-bar:nth-child(8) { animation-delay: 0.7s; background: var(--teal); }
+@keyframes stream-bar {
+  0%, 100% { height: 20%; }
+  50% { height: 90%; }
+}
+.stream-overlay-top {
+  position: absolute;
+  top: 12px; left: 12px; right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.stream-overlay-bottom {
+  position: absolute;
+  bottom: 12px; left: 12px; right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.live-pill {
+  background: var(--red);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 4px 10px;
+  border-radius: 2px;
+  display: flex; align-items: center; gap: 5px;
+}
+.live-pulse { width: 6px; height: 6px; border-radius: 50%; background: #fff; animation: pulse-dot 1.2s infinite; }
+.viewer-count {
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+  border-radius: 2px;
+  display: flex; align-items: center; gap: 5px;
+}
+.stream-controls {
+  display: flex;
+  gap: 6px;
+  margin-top: auto;
+}
+.ctrl-btn {
+  background: rgba(0,0,0,0.6);
+  border: none;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.15s;
+}
+.ctrl-btn:hover { background: rgba(124,58,237,0.5); }
+
+.stream-info-bar {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-surface);
+}
+.stream-title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.streamer-avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--purple);
+  background: var(--purple-dim);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--purple-light);
+  flex-shrink: 0;
+}
+.stream-details { flex: 1; }
+.stream-big-title { font-size: 17px; font-weight: 700; color: var(--text-primary); margin-bottom: 3px; }
+.stream-sub { font-size: 12px; color: var(--text-secondary); display: flex; gap: 12px; flex-wrap: wrap; }
+.stream-sub span { display: flex; align-items: center; gap: 4px; }
+.stream-action-row { display: flex; gap: 8px; align-items: center; }
+.follow-btn { background: var(--purple); border: none; color: #fff; font-family: var(--font-body); font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 7px 18px; border-radius: var(--radius); cursor: pointer; transition: background 0.15s; }
+.follow-btn:hover { background: #6d28d9; }
+.sub-btn { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); font-family: var(--font-body); font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 7px 18px; border-radius: var(--radius); cursor: pointer; transition: all 0.15s; }
+.sub-btn:hover { border-color: var(--teal); color: var(--teal); }
+.shareplay-btn { background: var(--blue-dim); border: 1px solid rgba(59,130,246,0.3); color: #60a5fa; font-family: var(--font-body); font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 7px 18px; border-radius: var(--radius); cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 6px; }
+.shareplay-btn:hover { background: rgba(59,130,246,0.2); }
+
+.stream-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  margin: 20px;
+}
+.stream-card {
+  background: var(--bg-surface);
+  cursor: pointer;
+  transition: all 0.15s;
+  overflow: hidden;
+}
+.stream-card:hover { background: var(--bg-elevated); }
+.stream-card-thumb {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: var(--bg-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.stream-card-info { padding: 10px; }
+.stream-card-game { font-size: 10px; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px; }
+.stream-card-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; line-height: 1.3; }
+.stream-card-meta { display: flex; gap: 8px; font-size: 11px; color: var(--text-muted); }
+.stream-card-viewers { color: var(--red); font-weight: 700; }
+
+/* CHAT PANEL */
+.chat-panel {
+  width: 320px;
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  background: var(--bg-surface);
+}
+.chat-header {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.chat-title { font-family: var(--font-display); font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--text-secondary); }
+.chat-tabs { display: flex; gap: 4px; }
+.chat-tab { background: transparent; border: none; color: var(--text-muted); font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 4px 8px; cursor: pointer; border-radius: var(--radius); transition: all 0.15s; }
+.chat-tab.active { background: var(--purple-dim); color: var(--purple-light); }
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.chat-msg { display: flex; gap: 8px; align-items: flex-start; }
+.msg-avatar {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.msg-body { flex: 1; min-width: 0; }
+.msg-author { font-size: 11px; font-weight: 700; margin-bottom: 1px; }
+.msg-text { font-size: 12px; color: var(--text-secondary); line-height: 1.5; word-break: break-word; }
+.msg-badge {
+  display: inline-block;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 1px 5px;
+  border-radius: 2px;
+  margin-right: 3px;
+  vertical-align: middle;
+}
+.badge-mod { background: var(--teal); color: #000; }
+.badge-sub { background: var(--purple); color: #fff; }
+.badge-ps { background: #0070d1; color: #fff; }
+
+.chat-input-area {
+  padding: 10px;
+  border-top: 1px solid var(--border);
+}
+.chat-input-row {
+  display: flex;
+  gap: 6px;
+}
+.chat-input {
+  flex: 1;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 13px;
+  padding: 7px 10px;
+  border-radius: var(--radius);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.chat-input:focus { border-color: var(--purple); }
+.send-btn {
+  background: var(--purple);
+  border: none;
+  color: #fff;
+  width: 34px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  transition: background 0.15s;
+}
+.send-btn:hover { background: #6d28d9; }
+
+/* ═══════════════════════════════════════════
+   COMMUNITY PAGE
+═══════════════════════════════════════════ */
+#page-community { flex-direction: row !important; }
+
+.community-page-main { flex: 1; overflow-y: auto; }
+.community-banner {
+  height: 140px;
+  background: linear-gradient(135deg, #1a0a3a 0%, #0d1a3a 50%, #0a2a1a 100%);
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+}
+.community-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(124,58,237,0.03) 30px, rgba(124,58,237,0.03) 60px);
+}
+.community-header {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+.community-icon {
+  width: 60px; height: 60px;
+  border-radius: var(--radius-lg);
+  border: 3px solid var(--bg-deep);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+}
+.community-info { flex: 1; }
+.community-name { font-family: var(--font-display); font-size: 20px; font-weight: 900; color: #fff; letter-spacing: 1px; }
+.community-stats { display: flex; gap: 16px; margin-top: 4px; }
+.community-stat { font-size: 12px; color: rgba(255,255,255,0.6); display: flex; align-items: center; gap: 4px; }
+.community-stat strong { color: #fff; }
+.community-actions { display: flex; gap: 8px; }
+.join-btn { background: var(--purple); border: none; color: #fff; font-family: var(--font-body); font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 8px 20px; border-radius: var(--radius); cursor: pointer; transition: background 0.15s; }
+.join-btn.joined { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); }
+.join-btn:hover { background: #6d28d9; }
+.join-btn.joined:hover { border-color: var(--red); color: var(--red); }
+
+.community-sub-nav {
+  display: flex;
+  gap: 0;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-surface);
+}
+.sub-nav-item {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-bottom: -1px;
+}
+.sub-nav-item.active { color: var(--purple-light); border-bottom-color: var(--purple); }
+.sub-nav-item:hover { color: var(--text-primary); }
+
+.community-content {
+  display: flex;
+  gap: 0;
+}
+.community-feed { flex: 1; padding: 20px 24px; overflow-y: auto; }
+.community-about { width: 280px; padding: 20px 16px; border-left: 1px solid var(--border); overflow-y: auto; }
+
+.about-widget { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; margin-bottom: 12px; }
+.about-widget h3 { font-family: var(--font-display); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px; }
+.about-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 12px; }
+.about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.about-stat { background: var(--bg-elevated); border-radius: var(--radius); padding: 10px; text-align: center; }
+.about-stat-num { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--purple-light); display: block; }
+.about-stat-label { font-size: 10px; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; }
+.tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text-secondary); font-size: 11px; padding: 3px 10px; border-radius: 10px; cursor: pointer; font-weight: 600; letter-spacing: 0.5px; }
+.tag:hover { border-color: var(--purple); color: var(--purple-light); }
+.moderator-list { display: flex; flex-direction: column; gap: 8px; }
+.mod-item { display: flex; align-items: center; gap: 8px; }
+.mod-avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex-shrink: 0; }
+.mod-name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+.mod-role { font-size: 10px; color: var(--teal); letter-spacing: 1px; }
+
+/* ═══════════════════════════════════════════
+   CHAT ROOMS PAGE
+═══════════════════════════════════════════ */
+#page-chat { flex-direction: row !important; }
+
+.chat-rooms-sidebar {
+  width: 220px;
+  border-right: 1px solid var(--border);
+  background: var(--bg-surface);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.chat-rooms-game {
+  padding: 10px 8px 4px;
+}
+.chat-rooms-game-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  cursor: pointer;
+  border-radius: var(--radius);
+  transition: background 0.15s;
+}
+.chat-rooms-game-header:hover { background: var(--purple-dim); }
+.chat-game-icon { width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+.chat-game-name { font-size: 13px; font-weight: 700; color: var(--text-primary); flex: 1; }
+.chat-game-chevron { font-size: 10px; color: var(--text-muted); }
+.channel-list { padding-left: 8px; }
+.channel-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+.channel-item:hover { background: var(--purple-dim); color: var(--text-primary); }
+.channel-item.active { background: var(--purple-dim); color: var(--purple-light); }
+.channel-prefix { font-size: 14px; color: var(--text-muted); }
+.channel-unread { margin-left: auto; font-size: 10px; font-weight: 700; background: var(--purple); color: #fff; padding: 1px 5px; border-radius: 8px; }
+
+.chat-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.chat-room-header {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-surface);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.chat-room-name { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--text-primary); letter-spacing: 1px; }
+.chat-room-desc { font-size: 12px; color: var(--text-muted); }
+.chat-room-meta { margin-left: auto; display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); }
+.online-count { display: flex; align-items: center; gap: 4px; }
+.online-indicator { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+
+.chat-full-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.chat-full-msg { display: flex; gap: 12px; align-items: flex-start; }
+.full-msg-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+  flex-shrink: 0;
+}
+.full-msg-body { flex: 1; }
+.full-msg-header { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
+.full-msg-author { font-size: 14px; font-weight: 700; }
+.full-msg-time { font-size: 11px; color: var(--text-muted); }
+.full-msg-text { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+.chat-system-msg {
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  padding: 4px 0;
+}
+
+.chat-voice-bar {
+  background: var(--bg-elevated);
+  border-top: 1px solid var(--border);
+  padding: 8px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.voice-channel-info { flex: 1; }
+.voice-channel-name { font-size: 12px; font-weight: 700; color: var(--teal); display: flex; align-items: center; gap: 6px; }
+.voice-users { font-size: 11px; color: var(--text-muted); }
+.voice-btn { background: transparent; border: 1px solid var(--border); color: var(--text-muted); width: 30px; height: 30px; border-radius: var(--radius); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: all 0.15s; }
+.voice-btn:hover { border-color: var(--purple); color: var(--purple-light); }
+.voice-btn.active { background: var(--teal); border-color: var(--teal); color: #000; }
+.voice-btn.muted { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); color: var(--red); }
+
+.chat-input-full {
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-surface);
+}
+.chat-input-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 8px 12px;
+  transition: border-color 0.15s;
+}
+.chat-input-box:focus-within { border-color: var(--purple); }
+.chat-input-inner {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+}
+.chat-toolbar { display: flex; gap: 4px; }
+.chat-tool { background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 14px; padding: 2px 4px; border-radius: 2px; transition: color 0.15s; }
+.chat-tool:hover { color: var(--purple-light); }
+
+.members-panel {
+  width: 200px;
+  border-left: 1px solid var(--border);
+  background: var(--bg-surface);
+  overflow-y: auto;
+  padding: 12px 8px;
+}
+.members-section-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); padding: 0 8px 6px; }
+.member-item { display: flex; align-items: center; gap: 8px; padding: 5px 8px; border-radius: var(--radius); cursor: pointer; transition: background 0.15s; }
+.member-item:hover { background: var(--purple-dim); }
+.member-avatar { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex-shrink: 0; position: relative; }
+.member-status { position: absolute; bottom: -1px; right: -1px; width: 8px; height: 8px; border-radius: 50%; border: 1px solid var(--bg-surface); }
+.status-online { background: var(--teal); }
+.status-playing { background: var(--purple); }
+.status-away { background: var(--amber); }
+.member-name { font-size: 12px; color: var(--text-secondary); font-weight: 500; }
+.member-platform { font-size: 9px; color: var(--text-muted); margin-left: auto; }
+
+/* ═══════════════════════════════════════════
+   PLAYSTATION / SHAREPLAY PAGE
+═══════════════════════════════════════════ */
+#page-shareplay { overflow-y: auto; }
+
+.shareplay-page { max-width: 900px; margin: 0 auto; padding: 32px 24px; }
+.shareplay-hero {
+  background: linear-gradient(135deg, rgba(0,112,209,0.15) 0%, rgba(0,50,100,0.1) 100%);
+  border: 1px solid rgba(0,112,209,0.25);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+.ps-logo-large {
+  width: 80px; height: 80px;
+  background: rgba(0,112,209,0.15);
+  border-radius: var(--radius-lg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 40px;
+  color: #60a5fa;
+  flex-shrink: 0;
+  border: 1px solid rgba(59,130,246,0.3);
+}
+.shareplay-hero-text h2 { font-family: var(--font-display); font-size: 22px; font-weight: 900; color: #fff; letter-spacing: 1px; margin-bottom: 8px; }
+.shareplay-hero-text p { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 16px; }
+.connect-ps-btn { background: #0070d1; border: none; color: #fff; font-family: var(--font-body); font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 10px 24px; border-radius: var(--radius); cursor: pointer; transition: background 0.15s; display: inline-flex; align-items: center; gap: 8px; }
+.connect-ps-btn:hover { background: #0060b0; }
+.connect-ps-btn.connected { background: var(--teal); }
+
+.account-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+.account-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.account-card:hover { border-color: var(--border-hover); }
+.account-card.connected { border-color: rgba(0,200,160,0.3); background: rgba(0,200,160,0.04); }
+.account-platform-icon { font-size: 36px; margin-bottom: 12px; display: block; }
+.account-platform-name { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+.account-status { font-size: 11px; letter-spacing: 1px; font-weight: 700; text-transform: uppercase; }
+.status-connected { color: var(--teal); }
+.status-disconnected { color: var(--text-muted); }
+.account-username { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.connect-btn-sm { margin-top: 12px; width: 100%; background: transparent; border: 1px solid var(--border); color: var(--text-secondary); font-family: var(--font-body); font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 6px; border-radius: var(--radius); cursor: pointer; transition: all 0.15s; }
+.connect-btn-sm:hover { border-color: var(--purple); color: var(--purple-light); }
+
+.shareplay-section-title { font-family: var(--font-display); font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+.shareplay-section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+.ps-trophies { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 24px; }
+.trophy-card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px; text-align: center; }
+.trophy-icon { font-size: 24px; margin-bottom: 6px; display: block; }
+.trophy-name { font-size: 12px; font-weight: 600; color: var(--text-primary); margin-bottom: 3px; line-height: 1.3; }
+.trophy-game { font-size: 10px; color: var(--text-muted); letter-spacing: 0.5px; }
+.trophy-rarity { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-top: 6px; }
+.rarity-gold { color: var(--amber); }
+.rarity-silver { color: #94a3b8; }
+.rarity-bronze { color: #b45309; }
+.rarity-platinum { color: #a78bfa; }
+
+.shareplay-sessions { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+.session-card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; display: flex; align-items: center; gap: 16px; }
+.session-card:hover { border-color: rgba(59,130,246,0.3); }
+.session-game-icon { width: 48px; height: 48px; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+.session-info { flex: 1; }
+.session-game { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 3px; }
+.session-host { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; display: flex; align-items: center; gap: 4px; }
+.session-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.session-tag { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 2px 8px; border-radius: 10px; }
+.tag-shareplay { background: var(--blue-dim); color: #60a5fa; border: 1px solid rgba(59,130,246,0.25); }
+.tag-coop { background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(0,200,160,0.25); }
+.tag-ps5 { background: rgba(0,112,209,0.1); color: #60a5fa; border: 1px solid rgba(0,112,209,0.25); }
+.join-session-btn { background: var(--blue-dim); border: 1px solid rgba(59,130,246,0.3); color: #60a5fa; font-family: var(--font-body); font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 8px 16px; border-radius: var(--radius); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.join-session-btn:hover { background: rgba(59,130,246,0.2); }
+
+/* ═══════════════════════════════════════════
+   LOGIN / AUTH MODAL
+═══════════════════════════════════════════ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5,4,15,0.85);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  width: 420px;
+  max-width: calc(100vw - 32px);
+  transform: translateY(16px);
+  transition: transform 0.2s;
+}
+.modal-overlay.open .modal { transform: translateY(0); }
+.modal-logo { font-family: var(--font-display); font-size: 20px; font-weight: 900; letter-spacing: 4px; text-align: center; margin-bottom: 6px; }
+.modal-logo span { color: var(--purple); }
+.modal-tagline { text-align: center; font-size: 12px; color: var(--text-muted); letter-spacing: 1px; margin-bottom: 28px; }
+.modal-title { font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 20px; }
+.platform-login-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.platform-login-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  transition: all 0.15s;
+  border: 1px solid;
+}
+.plat-ps { background: rgba(0,112,209,0.1); border-color: rgba(0,112,209,0.35); color: #60a5fa; }
+.plat-ps:hover { background: rgba(0,112,209,0.2); }
+.plat-xbox { background: rgba(16,124,16,0.1); border-color: rgba(16,124,16,0.35); color: #4ade80; }
+.plat-xbox:hover { background: rgba(16,124,16,0.2); }
+.plat-steam { background: rgba(100,150,200,0.1); border-color: rgba(100,150,200,0.25); color: #7dd3fc; }
+.plat-steam:hover { background: rgba(100,150,200,0.2); }
+.plat-google { background: rgba(234,67,53,0.1); border-color: rgba(234,67,53,0.25); color: #f87171; }
+.plat-google:hover { background: rgba(234,67,53,0.2); }
+.modal-or { display: flex; align-items: center; gap: 10px; color: var(--text-muted); font-size: 12px; letter-spacing: 1px; margin-bottom: 16px; }
+.modal-or::before, .modal-or::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.modal-input { width: 100%; background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text-primary); font-family: var(--font-body); font-size: 14px; padding: 10px 14px; border-radius: var(--radius); outline: none; transition: border-color 0.15s; margin-bottom: 10px; }
+.modal-input:focus { border-color: var(--purple); }
+.modal-submit { width: 100%; background: var(--purple); border: none; color: #fff; font-family: var(--font-body); font-size: 14px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 12px; border-radius: var(--radius); cursor: pointer; transition: background 0.15s; margin-bottom: 12px; }
+.modal-submit:hover { background: #6d28d9; }
+.modal-switch { text-align: center; font-size: 13px; color: var(--text-muted); }
+.modal-switch a { color: var(--purple-light); cursor: pointer; text-decoration: none; }
+.modal-switch a:hover { text-decoration: underline; }
+.modal-close { position: absolute; top: 12px; right: 12px; background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 16px; }
+.modal-close:hover { color: var(--text-primary); }
+.modal-wrapper { position: relative; }
+
+/* ═══════════════════════════════════════════
+   NOTIFICATION TOAST
+═══════════════════════════════════════════ */
+.toast-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+.toast {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 260px;
+  max-width: 340px;
+  transform: translateX(100px);
+  opacity: 0;
+  transition: all 0.3s;
+  pointer-events: all;
+}
+.toast.show { transform: translateX(0); opacity: 1; }
+.toast-icon { width: 28px; height: 28px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.toast-text { flex: 1; }
+.toast-title { font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 1px; }
+.toast-sub { font-size: 11px; color: var(--text-muted); }
+.toast-purple .toast-icon { background: var(--purple-dim); color: var(--purple-light); }
+.toast-teal .toast-icon { background: var(--teal-dim); color: var(--teal); }
+.toast-red .toast-icon { background: rgba(239,68,68,0.1); color: var(--red); }
+.toast-blue .toast-icon { background: var(--blue-dim); color: #60a5fa; }
+
+/* MISC UTILITIES */
+.separator { height: 1px; background: var(--border); margin: 8px 0; }
+.flex { display: flex; }
+.items-center { align-items: center; }
+.gap-2 { gap: 8px; }
+.mt-2 { margin-top: 8px; }
+.text-teal { color: var(--teal); }
+.text-purple { color: var(--purple-light); }
+.text-muted { color: var(--text-muted); }
+.text-red { color: var(--red); }
+.fw-700 { font-weight: 700; }
+</style>
+</head>
+<body>
+
+<div id="app">
+  <!-- TOPBAR -->
+  <div id="topbar">
+    <div class="logo" onclick="navigate('home')">NEX<span>U</span>S</div>
+    <div class="topbar-nav">
+      <button onclick="navigate('home')" id="nav-home" class="active"><i class="fas fa-fire"></i> Feed</button>
+      <button onclick="navigate('community')" id="nav-community"><i class="fas fa-users"></i> Communities</button>
+      <button onclick="navigate('live')" id="nav-live"><i class="fas fa-tower-broadcast"></i> Live</button>
+      <button onclick="navigate('chat')" id="nav-chat"><i class="fas fa-comments"></i> Chat</button>
+      <button onclick="navigate('shareplay')" id="nav-shareplay"><i class="fab fa-playstation"></i> SharePlay</button>
+    </div>
+    <div class="search-bar">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Search games, communities, streamers...">
+    </div>
+    <div class="topbar-right">
+      <button class="btn btn-live" onclick="showToast('red','fas fa-tower-broadcast','Going Live!','Setting up your stream...')">
+        <i class="fas fa-tower-broadcast"></i> Go Live
+      </button>
+      <button class="icon-btn" onclick="showToast('purple','fas fa-bell','3 New Notifications','ValkyrieGamer went live and 2 others')">
+        <i class="fas fa-bell"></i>
+        <span class="notif-dot"></span>
+      </button>
+      <div class="avatar-btn" onclick="openModal()">NK</div>
+    </div>
+  </div>
+
+  <div id="main">
+    <!-- LEFT SIDEBAR -->
+    <div id="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">Main</div>
+        <div class="sidebar-item active" onclick="navigate('home')"><i class="fas fa-home"></i> Home Feed</div>
+        <div class="sidebar-item" onclick="navigate('live')"><i class="fas fa-tower-broadcast"></i> Live Streams <span class="live-dot"></span></div>
+        <div class="sidebar-item" onclick="navigate('community')"><i class="fas fa-compass"></i> Discover</div>
+        <div class="sidebar-item" onclick="showToast('purple','fas fa-star','Featured','Trending games and events')"><i class="fas fa-star"></i> Featured</div>
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Your Communities</div>
+        <div class="sidebar-item" onclick="navigate('community')">
+          <div class="game-avatar" style="background:rgba(124,58,237,0.15)">⚔️</div> r/EldenRing
+          <span class="badge">12</span>
+        </div>
+        <div class="sidebar-item" onclick="navigate('community')">
+          <div class="game-avatar" style="background:rgba(0,200,160,0.1)">🎯</div> r/Warzone
+        </div>
+        <div class="sidebar-item" onclick="navigate('community')">
+          <div class="game-avatar" style="background:rgba(59,130,246,0.1)">🚀</div> r/Starfield
+        </div>
+        <div class="sidebar-item" onclick="navigate('community')">
+          <div class="game-avatar" style="background:rgba(245,158,11,0.1)">⚽</div> r/FC25
+          <span class="badge">3</span>
+        </div>
+        <div class="sidebar-item" onclick="navigate('community')">
+          <div class="game-avatar" style="background:rgba(239,68,68,0.1)">🔫</div> r/Helldivers2
+        </div>
+        <div class="sidebar-item" onclick="navigate('community')">
+          <div class="game-avatar" style="background:rgba(124,58,237,0.15)">🌌</div> r/FF7Rebirth
+        </div>
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Chat Rooms</div>
+        <div class="sidebar-item" onclick="navigate('chat')"><i class="fas fa-hashtag"></i> elden-ring-general <span class="badge">5</span></div>
+        <div class="sidebar-item" onclick="navigate('chat')"><i class="fas fa-hashtag"></i> warzone-lfg</div>
+        <div class="sidebar-item" onclick="navigate('chat')"><i class="fas fa-hashtag"></i> helldivers-ops</div>
+        <div class="sidebar-item" onclick="navigate('chat')"><i class="fas fa-volume-high"></i> Voice: Squad Up</div>
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Linked Accounts</div>
+        <div class="sidebar-item" onclick="navigate('shareplay')"><i class="fab fa-playstation" style="color:#60a5fa"></i> PlayStation <span style="font-size:9px;color:var(--teal);margin-left:auto;letter-spacing:1px;font-weight:700">LINKED</span></div>
+        <div class="sidebar-item" onclick="navigate('shareplay')"><i class="fab fa-steam" style="color:#7dd3fc"></i> Steam</div>
+        <div class="sidebar-item" onclick="navigate('shareplay')"><i class="fas fa-gamepad" style="color:#4ade80"></i> Xbox</div>
+      </div>
+    </div>
+
+    <!-- CONTENT AREA -->
+    <div id="content">
+
+      <!-- ─── HOME FEED PAGE ─── -->
+      <div id="page-home" class="page active">
+        <div class="feed-col">
+          <div class="feed-header">
+            <div class="feed-filters">
+              <button class="filter-btn active" onclick="setFilter(this,'hot')"><i class="fas fa-fire"></i> Hot</button>
+              <button class="filter-btn" onclick="setFilter(this,'new')"><i class="fas fa-clock"></i> New</button>
+              <button class="filter-btn" onclick="setFilter(this,'top')"><i class="fas fa-arrow-up"></i> Top</button>
+              <button class="filter-btn" onclick="setFilter(this,'rising')"><i class="fas fa-chart-line"></i> Rising</button>
+            </div>
+          </div>
+
+          <!-- POST 1 — VIDEO CLIP -->
+          <div class="post-card">
+            <div class="post-inner">
+              <div class="post-vote">
+                <button class="vote-btn up" onclick="vote(this,'up',1)"><i class="fas fa-arrow-up"></i></button>
+                <span class="vote-count" id="v1">24.7k</span>
+                <button class="vote-btn" onclick="vote(this,'down',1)"><i class="fas fa-arrow-down"></i></button>
+              </div>
+              <div class="post-body">
+                <div class="post-meta">
+                  <span class="community-tag" onclick="navigate('community')">r/EldenRing</span>
+                  <span class="post-author">posted by <strong>NightKnight_ps5</strong></span>
+                  <span class="post-time">· 2h ago</span>
+                </div>
+                <div class="post-flair flair-clip"><i class="fas fa-video"></i> Clip</div>
+                <div class="post-title">One-hit KO on Malenia at level 1 — 4 months of attempts finally paid off 😭</div>
+                <div class="post-image clip" onclick="openStream()">
+                  <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a0a3a,#0a1a2a);display:flex;align-items:center;justify-content:center;position:relative">
+                    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
+                      <div style="text-align:center;color:rgba(232,230,255,0.2);font-size:12px;letter-spacing:2px;font-weight:700;text-transform:uppercase">PS5 · ELDEN RING</div>
+                    </div>
+                    <div class="clip-play"><i class="fas fa-play" style="margin-left:3px"></i></div>
+                  </div>
+                </div>
+                <div class="post-actions">
+                  <button class="action-btn" onclick="showToast('purple','fas fa-comment','Comments','Loading 847 comments...')"><i class="fas fa-comment"></i> 847</button>
+                  <button class="action-btn" onclick="showToast('teal','fas fa-share','Share','Link copied to clipboard!')"><i class="fas fa-share"></i> Share</button>
+                  <button class="action-btn" onclick="showToast('purple','fas fa-bookmark','Saved','Post saved to your collection')"><i class="fas fa-bookmark"></i> Save</button>
+                  <button class="action-btn" onclick="navigate('shareplay')" style="color:#60a5fa"><i class="fab fa-playstation"></i> SharePlay</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- POST 2 — DISCUSSION -->
+          <div class="post-card">
+            <div class="post-inner">
+              <div class="post-vote">
+                <button class="vote-btn" onclick="vote(this,'up',2)"><i class="fas fa-arrow-up"></i></button>
+                <span class="vote-count" id="v2">18.2k</span>
+                <button class="vote-btn" onclick="vote(this,'down',2)"><i class="fas fa-arrow-down"></i></button>
+              </div>
+              <div class="post-body">
+                <div class="post-meta">
+                  <span class="community-tag" onclick="navigate('community')">r/Warzone</span>
+                  <span class="post-author">posted by <strong>ValkyrieGamer</strong></span>
+                  <span class="post-time">· 5h ago</span>
+                </div>
+                <div class="post-flair flair-discussion"><i class="fas fa-comments"></i> Discussion</div>
+                <div class="post-title">Season 4 meta is completely broken — controller vs mouse gap is the widest it's ever been</div>
+                <div class="post-preview">After 600 hours in Warzone, I genuinely believe the current season has the worst-balanced meta since launch. The TTK changes in this patch combined with the new SMG attachments have created a situation where...</div>
+                <div class="post-actions">
+                  <button class="action-btn" onclick="showToast('purple','fas fa-comment','Comments','Loading 1.2k comments...')"><i class="fas fa-comment"></i> 1.2k</button>
+                  <button class="action-btn" onclick="showToast('teal','fas fa-share','Share','Link copied!')"><i class="fas fa-share"></i> Share</button>
+                  <button class="action-btn" onclick="navigate('live')"><i class="fas fa-tower-broadcast"></i> Watch Live</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- POST 3 — GUIDE -->
+          <div class="post-card">
+            <div class="post-inner">
+              <div class="post-vote">
+                <button class="vote-btn" onclick="vote(this,'up',3)"><i class="fas fa-arrow-up"></i></button>
+                <span class="vote-count" id="v3">9.4k</span>
+                <button class="vote-btn" onclick="vote(this,'down',3)"><i class="fas fa-arrow-down"></i></button>
+              </div>
+              <div class="post-body">
+                <div class="post-meta">
+                  <span class="community-tag" onclick="navigate('community')">r/Helldivers2</span>
+                  <span class="post-author">posted by <strong>StellarDiver_X</strong></span>
+                  <span class="post-time">· 1d ago</span>
+                </div>
+                <div class="post-flair flair-guide"><i class="fas fa-book"></i> Guide</div>
+                <div class="post-title">[MEGA GUIDE] Complete Stratagem optimization for Difficulty 9 — all loadouts, timings, and synergies</div>
+                <div class="post-preview">This took 3 weeks to compile. Every tested stratagem combination, cooldown optimization chart, and squad role breakdown for the hardest difficulty...</div>
+                <div class="post-actions">
+                  <button class="action-btn" onclick="showToast('purple','fas fa-comment','Comments','Loading 634 comments...')"><i class="fas fa-comment"></i> 634</button>
+                  <button class="action-btn" onclick="showToast('teal','fas fa-share','Share','Link copied!')"><i class="fas fa-share"></i> Share</button>
+                  <button class="action-btn" onclick="showToast('purple','fas fa-bookmark','Saved','Added to your library')"><i class="fas fa-bookmark"></i> Save</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- POST 4 — SHAREPLAY -->
+          <div class="post-card">
+            <div class="post-inner">
+              <div class="post-vote">
+                <button class="vote-btn" onclick="vote(this,'up',4)"><i class="fas fa-arrow-up"></i></button>
+                <span class="vote-count" id="v4">6.1k</span>
+                <button class="vote-btn" onclick="vote(this,'down',4)"><i class="fas fa-arrow-down"></i></button>
+              </div>
+              <div class="post-body">
+                <div class="post-meta">
+                  <span class="community-tag" onclick="navigate('community')">r/FF7Rebirth</span>
+                  <span class="post-author">posted by <strong>CloudStrife_IRL</strong></span>
+                  <span class="post-time">· 3h ago</span>
+                </div>
+                <div class="post-flair flair-shareplay"><i class="fab fa-playstation"></i> SharePlay</div>
+                <div class="post-title">Hosting SharePlay session for the final boss — come watch or take the controller if you've been stuck too!</div>
+                <div class="post-preview">Open SharePlay session on PS5, anyone can join and even take the controller. I'm at the Sephiroth final battle. Let's beat this together 🗡️</div>
+                <div class="post-actions">
+                  <button class="action-btn" onclick="navigate('shareplay')" style="color:#60a5fa"><i class="fab fa-playstation"></i> Join SharePlay</button>
+                  <button class="action-btn" onclick="showToast('purple','fas fa-comment','Comments','Loading 291 comments...')"><i class="fas fa-comment"></i> 291</button>
+                  <button class="action-btn" onclick="showToast('teal','fas fa-share','Share','Link copied!')"><i class="fas fa-share"></i> Share</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- POST 5 — NEWS -->
+          <div class="post-card">
+            <div class="post-inner">
+              <div class="post-vote">
+                <button class="vote-btn" onclick="vote(this,'up',5)"><i class="fas fa-arrow-up"></i></button>
+                <span class="vote-count" id="v5">31.4k</span>
+                <button class="vote-btn" onclick="vote(this,'down',5)"><i class="fas fa-arrow-down"></i></button>
+              </div>
+              <div class="post-body">
+                <div class="post-meta">
+                  <span class="community-tag" onclick="navigate('community')">r/GamingNews</span>
+                  <span class="post-author">posted by <strong>NexusNews_Bot</strong></span>
+                  <span class="post-time">· 45m ago</span>
+                </div>
+                <div class="post-flair flair-news"><i class="fas fa-newspaper"></i> News</div>
+                <div class="post-title">PlayStation State of Play announced for next week — Bloodborne remaster rumors intensify ahead of event</div>
+                <div class="post-actions">
+                  <button class="action-btn" onclick="showToast('purple','fas fa-comment','Comments','Loading 4.7k comments...')"><i class="fas fa-comment"></i> 4.7k</button>
+                  <button class="action-btn" onclick="showToast('teal','fas fa-share','Share','Link copied!')"><i class="fas fa-share"></i> Share</button>
+                  <button class="action-btn" onclick="navigate('community')"><i class="fas fa-users"></i> r/GamingNews</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FEED RIGHT SIDEBAR -->
+        <div class="feed-sidebar">
+          <div class="widget">
+            <div class="widget-title">🔴 Live Right Now</div>
+            <div class="live-stream-mini" onclick="navigate('live')">
+              <div class="stream-thumb">
+                <div class="stream-thumb-bar"></div><div class="stream-thumb-bar"></div>
+                <div class="stream-thumb-bar"></div><div class="stream-thumb-bar"></div>
+                <div class="stream-thumb-bar"></div>
+              </div>
+              <div class="stream-info">
+                <div class="stream-name">EldenLord_GG</div>
+                <div class="stream-game-label">Elden Ring</div>
+                <div class="stream-viewers">24,812 watching</div>
+              </div>
+              <div class="live-badge-mini">LIVE</div>
+            </div>
+            <div class="live-stream-mini" onclick="navigate('live')">
+              <div class="stream-thumb">
+                <div class="stream-thumb-bar"></div><div class="stream-thumb-bar"></div>
+                <div class="stream-thumb-bar"></div><div class="stream-thumb-bar"></div>
+                <div class="stream-thumb-bar"></div>
+              </div>
+              <div class="stream-info">
+                <div class="stream-name">ValkyrieGamer</div>
+                <div class="stream-game-label">Warzone</div>
+                <div class="stream-viewers">8,441 watching</div>
+              </div>
+              <div class="live-badge-mini">LIVE</div>
+            </div>
+            <div class="live-stream-mini" onclick="navigate('live')">
+              <div class="stream-thumb">
+                <div class="stream-thumb-bar"></div><div class="stream-thumb-bar"></div>
+                <div class="stream-thumb-bar"></div><div class="stream-thumb-bar"></div>
+                <div class="stream-thumb-bar"></div>
+              </div>
+              <div class="stream-info">
+                <div class="stream-name">CosmicBlast_PS</div>
+                <div class="stream-game-label">Helldivers 2</div>
+                <div class="stream-viewers">3,920 watching</div>
+              </div>
+              <div class="live-badge-mini">LIVE</div>
+            </div>
+            <button class="btn btn-ghost" style="width:100%;margin-top:10px;font-size:11px" onclick="navigate('live')">View All Streams →</button>
+          </div>
+
+          <div class="widget">
+            <div class="widget-title">🔥 Trending Communities</div>
+            <div class="trending-item" onclick="navigate('community')">
+              <span class="trending-rank">1</span>
+              <div class="trending-icon" style="background:rgba(124,58,237,0.15)">⚔️</div>
+              <div>
+                <div class="trending-name">r/EldenRing</div>
+                <div class="trending-members">4.2M members</div>
+              </div>
+              <span class="trending-arrow"><i class="fas fa-arrow-up" style="color:var(--teal)"></i></span>
+            </div>
+            <div class="trending-item" onclick="navigate('community')">
+              <span class="trending-rank">2</span>
+              <div class="trending-icon" style="background:rgba(0,200,160,0.1)">🎯</div>
+              <div>
+                <div class="trending-name">r/Warzone</div>
+                <div class="trending-members">3.8M members</div>
+              </div>
+              <span class="trending-arrow"><i class="fas fa-arrow-up" style="color:var(--teal)"></i></span>
+            </div>
+            <div class="trending-item" onclick="navigate('community')">
+              <span class="trending-rank">3</span>
+              <div class="trending-icon" style="background:rgba(245,158,11,0.1)">⚽</div>
+              <div>
+                <div class="trending-name">r/FC25</div>
+                <div class="trending-members">2.9M members</div>
+              </div>
+              <span class="trending-arrow"><i class="fas fa-arrow-up" style="color:var(--teal)"></i></span>
+            </div>
+            <div class="trending-item" onclick="navigate('community')">
+              <span class="trending-rank">4</span>
+              <div class="trending-icon" style="background:rgba(239,68,68,0.1)">🔫</div>
+              <div>
+                <div class="trending-name">r/Helldivers2</div>
+                <div class="trending-members">1.9M members</div>
+              </div>
+              <span class="trending-arrow"><i class="fas fa-arrow-up" style="color:var(--teal)"></i></span>
+            </div>
+          </div>
+
+          <div class="widget">
+            <div class="widget-title">🎮 Your Stats</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <div style="background:var(--bg-elevated);border-radius:var(--radius);padding:10px;text-align:center">
+                <div style="font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--purple-light)">2,847</div>
+                <div style="font-size:10px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase">Karma</div>
+              </div>
+              <div style="background:var(--bg-elevated);border-radius:var(--radius);padding:10px;text-align:center">
+                <div style="font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--teal)">6</div>
+                <div style="font-size:10px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase">Communities</div>
+              </div>
+              <div style="background:var(--bg-elevated);border-radius:var(--radius);padding:10px;text-align:center">
+                <div style="font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--amber)">47</div>
+                <div style="font-size:10px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase">Posts</div>
+              </div>
+              <div style="background:var(--bg-elevated);border-radius:var(--radius);padding:10px;text-align:center">
+                <div style="font-family:var(--font-display);font-size:18px;font-weight:700;color:#60a5fa">128</div>
+                <div style="font-size:10px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase">Trophies</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── LIVE STREAMING PAGE ─── -->
+      <div id="page-live" class="page">
+        <div class="stream-main">
+          <div class="stream-viewport">
+            <div class="stream-placeholder">
+              <div class="stream-viz">
+                <div class="stream-viz-bar" style="height:40%"></div>
+                <div class="stream-viz-bar" style="height:80%"></div>
+                <div class="stream-viz-bar" style="height:50%"></div>
+                <div class="stream-viz-bar" style="height:100%"></div>
+                <div class="stream-viz-bar" style="height:65%"></div>
+                <div class="stream-viz-bar" style="height:30%"></div>
+                <div class="stream-viz-bar" style="height:90%"></div>
+                <div class="stream-viz-bar" style="height:70%"></div>
+              </div>
+              <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:rgba(232,230,255,0.3)">EldenLord_GG · Elden Ring</div>
+            </div>
+            <div class="stream-overlay-top">
+              <div class="live-pill"><span class="live-pulse"></span> LIVE</div>
+              <div class="viewer-count"><i class="fas fa-eye"></i> 24,812 watching</div>
+              <div class="stream-controls">
+                <button class="ctrl-btn" onclick="showToast('purple','fas fa-expand','Fullscreen','Entering fullscreen mode')"><i class="fas fa-expand"></i></button>
+                <button class="ctrl-btn" onclick="showToast('purple','fas fa-volume-high','Audio','Audio controls')"><i class="fas fa-volume-high"></i></button>
+                <button class="ctrl-btn" onclick="showToast('teal','fas fa-share','Share Stream','Link copied!')"><i class="fas fa-share"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="stream-info-bar">
+            <div class="stream-title-row">
+              <div class="streamer-avatar">EL</div>
+              <div class="stream-details">
+                <div class="stream-big-title">Malenia Speedrun — Any% World Record Attempt 🏆</div>
+                <div class="stream-sub">
+                  <span><i class="fas fa-gamepad"></i> Elden Ring: Shadow of the Erdtree</span>
+                  <span><i class="fas fa-users"></i> 48.2K followers</span>
+                  <span><i class="fas fa-clock"></i> Live 4h 12m</span>
+                  <span><i class="fab fa-playstation" style="color:#60a5fa"></i> PS5</span>
+                </div>
+              </div>
+            </div>
+            <div class="stream-action-row">
+              <button class="follow-btn" onclick="showToast('purple','fas fa-star','Following!','You now follow EldenLord_GG')">+ Follow</button>
+              <button class="sub-btn" onclick="showToast('teal','fas fa-heart','Subscribed!','You subscribed to EldenLord_GG')"><i class="fas fa-heart"></i> Subscribe</button>
+              <button class="shareplay-btn" onclick="navigate('shareplay')"><i class="fab fa-playstation"></i> Join SharePlay</button>
+              <button class="sub-btn" onclick="showToast('purple','fas fa-flag','Clipped!','Clip saved — last 30s')"><i class="fas fa-scissors"></i> Clip</button>
+            </div>
+          </div>
+
+          <div style="padding:16px 20px">
+            <div style="font-family:var(--font-display);font-size:11px;font-weight:700;letter-spacing:2px;color:var(--text-muted);margin-bottom:14px">🎮 MORE LIVE STREAMS</div>
+            <div class="stream-grid">
+              <div class="stream-card" onclick="showToast('red','fas fa-tower-broadcast','Now Watching','ValkyrieGamer — Warzone')">
+                <div class="stream-card-thumb">
+                  <div style="width:100%;height:100%;background:linear-gradient(135deg,#0a1a0a,#0a0a1a);display:flex;align-items:center;justify-content:center">
+                    <div style="display:flex;align-items:flex-end;gap:3px;height:40px">
+                      <div style="width:6px;background:#00c8a0;border-radius:2px;animation:bar-mini 1s ease-in-out infinite;height:50%"></div>
+                      <div style="width:6px;background:#00c8a0;border-radius:2px;animation:bar-mini 1s ease-in-out infinite 0.15s;height:100%"></div>
+                      <div style="width:6px;background:#7c3aed;border-radius:2px;animation:bar-mini 1s ease-in-out infinite 0.3s;height:70%"></div>
+                      <div style="width:6px;background:#00c8a0;border-radius:2px;animation:bar-mini 1s ease-in-out infinite 0.45s;height:80%"></div>
+                      <div style="width:6px;background:#7c3aed;border-radius:2px;animation:bar-mini 1s ease-in-out infinite 0.6s;height:40%"></div>
+                    </div>
+                  </div>
+                  <div style="position:absolute;top:5px;left:5px;background:var(--red);color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:2px;letter-spacing:1px">LIVE</div>
+                  <div style="position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,0.6);color:#fff;font-size:9px;padding:1px 5px;border-radius:2px">8.4K</div>
+                </div>
+                <div class="stream-card-info">
+                  <div class="stream-card-game">Warzone</div>
+                  <div class="stream-card-title">Solo to Champions — Unranked to Top 100</div>
+                  <div class="stream-card-meta"><span>ValkyrieGamer</span><span class="stream-card-viewers">8,441</span></div>
+                </div>
+              </div>
+              <div class="stream-card" onclick="showToast('red','fas fa-tower-broadcast','Now Watching','CosmicBlast_PS — Helldivers 2')">
+                <div class="stream-card-thumb">
+                  <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a0a0a,#0a0a10);display:flex;align-items:center;justify-content:center">
+                    <div style="display:flex;align-items:flex-end;gap:3px;height:40px">
+                      <div style="width:6px;background:#ef4444;border-radius:2px;animation:bar-mini 0.9s ease-in-out infinite;height:80%"></div>
+                      <div style="width:6px;background:#a78bfa;border-radius:2px;animation:bar-mini 0.9s ease-in-out infinite 0.1s;height:50%"></div>
+                      <div style="width:6px;background:#ef4444;border-radius:2px;animation:bar-mini 0.9s ease-in-out infinite 0.2s;height:100%"></div>
+                      <div style="width:6px;background:#a78bfa;border-radius:2px;animation:bar-mini 0.9s ease-in-out infinite 0.3s;height:60%"></div>
+                      <div style="width:6px;background:#ef4444;border-radius:2px;animation:bar-mini 0.9s ease-in-out infinite 0.4s;height:40%"></div>
+                    </div>
+                  </div>
+                  <div style="position:absolute;top:5px;left:5px;background:var(--red);color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:2px;letter-spacing:1px">LIVE</div>
+                  <div style="position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,0.6);color:#fff;font-size:9px;padding:1px 5px;border-radius:2px">3.9K</div>
+                </div>
+                <div class="stream-card-info">
+                  <div class="stream-card-game">Helldivers 2</div>
+                  <div class="stream-card-title">Diff 9 Full Clear — Squad Tactics Breakdown</div>
+                  <div class="stream-card-meta"><span>CosmicBlast_PS</span><span class="stream-card-viewers">3,920</span></div>
+                </div>
+              </div>
+              <div class="stream-card" onclick="showToast('red','fas fa-tower-broadcast','Now Watching','NightOwl_FC — FC25')">
+                <div class="stream-card-thumb">
+                  <div style="width:100%;height:100%;background:linear-gradient(135deg,#0a1a0f,#060610);display:flex;align-items:center;justify-content:center">
+                    <div style="display:flex;align-items:flex-end;gap:3px;height:40px">
+                      <div style="width:6px;background:#f59e0b;border-radius:2px;animation:bar-mini 1.1s ease-in-out infinite;height:70%"></div>
+                      <div style="width:6px;background:#22c55e;border-radius:2px;animation:bar-mini 1.1s ease-in-out infinite 0.2s;height:40%"></div>
+                      <div style="width:6px;background:#f59e0b;border-radius:2px;animation:bar-mini 1.1s ease-in-out infinite 0.4s;height:90%"></div>
+                      <div style="width:6px;background:#22c55e;border-radius:2px;animation:bar-mini 1.1s ease-in-out infinite 0.6s;height:55%"></div>
+                      <div style="width:6px;background:#f59e0b;border-radius:2px;animation:bar-mini 1.1s ease-in-out infinite 0.8s;height:75%"></div>
+                    </div>
+                  </div>
+                  <div style="position:absolute;top:5px;left:5px;background:var(--red);color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:2px;letter-spacing:1px">LIVE</div>
+                  <div style="position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,0.6);color:#fff;font-size:9px;padding:1px 5px;border-radius:2px">12.1K</div>
+                </div>
+                <div class="stream-card-info">
+                  <div class="stream-card-game">FC 25</div>
+                  <div class="stream-card-title">Division 1 Grind — Ultimate Team Build</div>
+                  <div class="stream-card-meta"><span>NightOwl_FC</span><span class="stream-card-viewers">12,144</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LIVE CHAT PANEL -->
+        <div class="chat-panel">
+          <div class="chat-header">
+            <div class="chat-title">Stream Chat</div>
+            <div class="chat-tabs">
+              <button class="chat-tab active">Chat</button>
+              <button class="chat-tab" onclick="showToast('purple','fas fa-poll','Poll','No active poll')">Poll</button>
+              <button class="chat-tab" onclick="showToast('teal','fas fa-list','Queue','SharePlay queue: 3 waiting')">Queue</button>
+            </div>
+          </div>
+          <div class="chat-messages" id="stream-chat">
+            <div class="chat-msg">
+              <div class="msg-avatar" style="background:rgba(124,58,237,0.2);color:#a78bfa">VG</div>
+              <div class="msg-body">
+                <div class="msg-author" style="color:#a78bfa"><span class="msg-badge badge-mod">MOD</span>ValkyrieGamer</div>
+                <div class="msg-text">glhf everyone! 👾</div>
+              </div>
+            </div>
+            <div class="chat-msg">
+              <div class="msg-avatar" style="background:rgba(0,200,160,0.15);color:#00c8a0">SK</div>
+              <div class="msg-body">
+                <div class="msg-author" style="color:#00c8a0"><span class="msg-badge badge-ps">PS5</span>SkellyKing</div>
+                <div class="msg-text">is this gonna be the world record run?? 😱</div>
+              </div>
+            </div>
+            <div class="chat-msg">
+              <div class="msg-avatar" style="background:rgba(59,130,246,0.15);color:#60a5fa">NK</div>
+              <div class="msg-body">
+                <div class="msg-author" style="color:#60a5fa"><span class="msg-badge badge-sub">SUB</span>NightKnight</div>
+                <div class="msg-text">PogChamp PogChamp PogChamp let's GOOO</div>
+              </div>
+            </div>
+            <div class="chat-msg">
+              <div class="msg-avatar" style="background:rgba(245,158,11,0.15);color:#f59e0b">GX</div>
+              <div class="msg-body">
+                <div class="msg-author" style="color:#f59e0b">GalaxyX99</div>
+                <div class="msg-text">the bleed build is actually cracked for this fight</div>
+              </div>
+            </div>
+            <div class="chat-msg">
+              <div class="msg-avatar" style="background:rgba(239,68,68,0.15);color:#f87171">RR</div>
+              <div class="msg-body">
+                <div class="msg-author" style="color:#f87171">RedRacer_ps</div>
+                <div class="msg-text">first attempt let's see 👀👀</div>
+              </div>
+            </div>
+            <div class="chat-msg">
+              <div class="msg-avatar" style="background:rgba(124,58,237,0.2);color:#a78bfa">CB</div>
+              <div class="msg-body">
+                <div class="msg-author" style="color:#a78bfa"><span class="msg-badge badge-sub">SUB</span>CosmicBlast</div>
+                <div class="msg-text">OMEGALUL the positioning rn</div>
+              </div>
+            </div>
+            <div class="chat-msg">
+              <div class="msg-avatar" style="background:rgba(0,200,160,0.15);color:#00c8a0">SD</div>
+              <div class="msg-body">
+                <div class="msg-author" style="color:#00c8a0">StellarDiv</div>
+                <div class="msg-text">chat is he gonna do the rot skip?</div>
+              </div>
+            </div>
+          </div>
+          <div class="chat-input-area">
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px;letter-spacing:0.5px">Chatting as <strong style="color:var(--purple-light)">NightKnight_ps5</strong></div>
+            <div class="chat-input-row">
+              <input class="chat-input" placeholder="Send a message..." id="stream-msg-input" onkeydown="sendStreamMsg(event)">
+              <button class="send-btn" onclick="sendStreamMsgBtn()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── COMMUNITY PAGE ─── -->
+      <div id="page-community" class="page">
+        <div class="community-page-main">
+          <div class="community-banner">
+            <div class="community-banner-overlay"></div>
+            <div class="community-header">
+              <div class="community-icon" style="background:linear-gradient(135deg,rgba(124,58,237,0.3),rgba(0,200,160,0.2))">⚔️</div>
+              <div class="community-info">
+                <div class="community-name">r/EldenRing</div>
+                <div class="community-stats">
+                  <div class="community-stat"><strong>4.2M</strong> Members</div>
+                  <div class="community-stat"><i class="fas fa-circle" style="color:var(--teal);font-size:8px"></i> <strong>18,241</strong> Online</div>
+                  <div class="community-stat"><i class="fas fa-trophy" style="color:var(--amber)"></i> Top Gaming Community</div>
+                </div>
+              </div>
+              <div class="community-actions">
+                <button class="join-btn joined" onclick="toggleJoin(this)">✓ Joined</button>
+                <button class="icon-btn" onclick="showToast('purple','fas fa-bell','Notifications','You'll be notified of top posts')"><i class="fas fa-bell"></i></button>
+                <button class="icon-btn" onclick="showToast('teal','fas fa-share','Share','Link copied!')"><i class="fas fa-share"></i></button>
+              </div>
+            </div>
+          </div>
+          <div class="community-sub-nav">
+            <button class="sub-nav-item active">Posts</button>
+            <button class="sub-nav-item" onclick="showToast('teal','fas fa-tower-broadcast','Streams','Loading community streams...')">Streams</button>
+            <button class="sub-nav-item" onclick="showToast('teal','fas fa-calendar','Events','Community events calendar')">Events</button>
+            <button class="sub-nav-item" onclick="navigate('chat')">Chat</button>
+            <button class="sub-nav-item" onclick="showToast('purple','fas fa-crown','Leaderboard','Top community contributors')">Leaderboard</button>
+            <button class="sub-nav-item" onclick="showToast('purple','fas fa-book','Wiki','Community wiki loading...')">Wiki</button>
+          </div>
+          <div class="community-content">
+            <div class="community-feed">
+              <div class="feed-header" style="margin-bottom:16px">
+                <div class="feed-filters">
+                  <button class="filter-btn active"><i class="fas fa-fire"></i> Hot</button>
+                  <button class="filter-btn"><i class="fas fa-clock"></i> New</button>
+                  <button class="filter-btn"><i class="fas fa-arrow-up"></i> Top</button>
+                </div>
+                <button class="btn btn-primary" onclick="showToast('purple','fas fa-pen','Create Post','Opening post editor...')"><i class="fas fa-plus"></i> Post</button>
+              </div>
+
+              <div class="post-card">
+                <div class="post-inner">
+                  <div class="post-vote">
+                    <button class="vote-btn up" onclick="vote(this,'up',10)"><i class="fas fa-arrow-up"></i></button>
+                    <span class="vote-count" id="v10">24.7k</span>
+                    <button class="vote-btn" onclick="vote(this,'down',10)"><i class="fas fa-arrow-down"></i></button>
+                  </div>
+                  <div class="post-body">
+                    <div class="post-meta">
+                      <span class="post-author">posted by <strong>NightKnight_ps5</strong></span>
+                      <span class="post-time">· 2h ago</span>
+                    </div>
+                    <div class="post-flair flair-clip"><i class="fas fa-video"></i> Clip</div>
+                    <div class="post-title">One-hit KO on Malenia at level 1 — 4 months of attempts finally paid off 😭</div>
+                    <div class="post-image clip" onclick="navigate('live')">
+                      <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a0a3a,#0a1a2a);display:flex;align-items:center;justify-content:center;position:relative">
+                        <div class="clip-play"><i class="fas fa-play" style="margin-left:3px"></i></div>
+                      </div>
+                    </div>
+                    <div class="post-actions">
+                      <button class="action-btn" onclick="showToast('purple','fas fa-comment','Comments','847 comments')"><i class="fas fa-comment"></i> 847</button>
+                      <button class="action-btn" onclick="showToast('teal','fas fa-share','Share','Copied!')"><i class="fas fa-share"></i> Share</button>
+                      <button class="action-btn" onclick="showToast('purple','fas fa-bookmark','Saved','Post saved')"><i class="fas fa-bookmark"></i> Save</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="post-card">
+                <div class="post-inner">
+                  <div class="post-vote">
+                    <button class="vote-btn" onclick="vote(this,'up',11)"><i class="fas fa-arrow-up"></i></button>
+                    <span class="vote-count" id="v11">11.3k</span>
+                    <button class="vote-btn" onclick="vote(this,'down',11)"><i class="fas fa-arrow-down"></i></button>
+                  </div>
+                  <div class="post-body">
+                    <div class="post-meta">
+                      <span class="post-author">posted by <strong>CloudStrife_IRL</strong></span>
+                      <span class="post-time">· 6h ago</span>
+                    </div>
+                    <div class="post-flair flair-discussion"><i class="fas fa-comments"></i> Discussion</div>
+                    <div class="post-title">What's your favourite remembrance weapon? Taking a poll — drop your answers below</div>
+                    <div class="post-preview">I've been going back and forth between Mohg's Sacred Spear and the Starscourge Greatswords. The dual-wield feel of the greatswords is insane but the spear has better range...</div>
+                    <div class="post-actions">
+                      <button class="action-btn" onclick="showToast('purple','fas fa-comment','Comments','419 comments')"><i class="fas fa-comment"></i> 419</button>
+                      <button class="action-btn" onclick="showToast('teal','fas fa-share','Share','Copied!')"><i class="fas fa-share"></i> Share</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="community-about">
+              <div class="about-widget">
+                <h3>About</h3>
+                <div class="about-desc">The official Nexus hub for all things Elden Ring. Share clips, strategies, lore discussions, and art. The Lands Between await.</div>
+                <div class="about-stats">
+                  <div class="about-stat"><span class="about-stat-num">4.2M</span><span class="about-stat-label">Members</span></div>
+                  <div class="about-stat"><span class="about-stat-num" style="color:var(--teal)">18.2K</span><span class="about-stat-label">Online</span></div>
+                  <div class="about-stat"><span class="about-stat-num" style="color:var(--amber)">2023</span><span class="about-stat-label">Founded</span></div>
+                  <div class="about-stat"><span class="about-stat-num" style="color:#60a5fa">142</span><span class="about-stat-label">Active Streams</span></div>
+                </div>
+                <div class="tag-list">
+                  <span class="tag">FromSoftware</span>
+                  <span class="tag">Soulslike</span>
+                  <span class="tag">GOTY 2022</span>
+                  <span class="tag">PS5</span>
+                  <span class="tag">PC</span>
+                  <span class="tag">Speedrun</span>
+                </div>
+              </div>
+              <div class="about-widget">
+                <h3>Moderators</h3>
+                <div class="moderator-list">
+                  <div class="mod-item">
+                    <div class="mod-avatar" style="background:rgba(124,58,237,0.2);color:#a78bfa">VG</div>
+                    <div><div class="mod-name">ValkyrieGamer</div><div class="mod-role">HEAD MOD</div></div>
+                  </div>
+                  <div class="mod-item">
+                    <div class="mod-avatar" style="background:rgba(0,200,160,0.15);color:#00c8a0">SD</div>
+                    <div><div class="mod-name">StellarDiver_X</div><div class="mod-role">MODERATOR</div></div>
+                  </div>
+                  <div class="mod-item">
+                    <div class="mod-avatar" style="background:rgba(59,130,246,0.15);color:#60a5fa">NK</div>
+                    <div><div class="mod-name">NightKnight_ps5</div><div class="mod-role">MODERATOR</div></div>
+                  </div>
+                </div>
+              </div>
+              <div class="about-widget">
+                <h3>Community Rules</h3>
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  <div style="font-size:12px;color:var(--text-secondary);display:flex;gap:8px"><span style="color:var(--purple-light);font-weight:700">1.</span>No spoilers without flair</div>
+                  <div style="font-size:12px;color:var(--text-secondary);display:flex;gap:8px"><span style="color:var(--purple-light);font-weight:700">2.</span>Be respectful to all Tarnished</div>
+                  <div style="font-size:12px;color:var(--text-secondary);display:flex;gap:8px"><span style="color:var(--purple-light);font-weight:700">3.</span>Mark NSFW content appropriately</div>
+                  <div style="font-size:12px;color:var(--text-secondary);display:flex;gap:8px"><span style="color:var(--purple-light);font-weight:700">4.</span>No trade or sell posts</div>
+                  <div style="font-size:12px;color:var(--text-secondary);display:flex;gap:8px"><span style="color:var(--purple-light);font-weight:700">5.</span>Low-effort posts will be removed</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── CHAT ROOMS PAGE ─── -->
+      <div id="page-chat" class="page">
+        <div class="chat-rooms-sidebar">
+          <div class="chat-rooms-game">
+            <div class="chat-rooms-game-header">
+              <div class="chat-game-icon" style="background:rgba(124,58,237,0.15)">⚔️</div>
+              <div class="chat-game-name">Elden Ring</div>
+              <div class="chat-game-chevron"><i class="fas fa-chevron-down"></i></div>
+            </div>
+            <div class="channel-list">
+              <div class="channel-item active"><span class="channel-prefix">#</span> general <span class="channel-unread">12</span></div>
+              <div class="channel-item" onclick="switchChannel(this,'#lore-discussion','Elden Ring')"><span class="channel-prefix">#</span> lore-discussion</div>
+              <div class="channel-item" onclick="switchChannel(this,'#builds','Elden Ring')"><span class="channel-prefix">#</span> builds</div>
+              <div class="channel-item" onclick="switchChannel(this,'#co-op-matchmaking','Elden Ring')"><span class="channel-prefix">#</span> co-op-matchmaking <span class="channel-unread">3</span></div>
+              <div class="channel-item" onclick="switchChannel(this,'#speedrunning','Elden Ring')"><span class="channel-prefix">#</span> speedrunning</div>
+              <div class="channel-item" style="color:var(--teal)" onclick="showToast('teal','fas fa-volume-high','Voice Channel','Connecting to voice...')"><i class="fas fa-volume-high" style="font-size:10px"></i> Squad Up <span style="font-size:9px;color:var(--teal);margin-left:auto">3 🎙️</span></div>
+            </div>
+          </div>
+          <div class="sidebar-divider"></div>
+          <div class="chat-rooms-game">
+            <div class="chat-rooms-game-header">
+              <div class="chat-game-icon" style="background:rgba(0,200,160,0.1)">🎯</div>
+              <div class="chat-game-name">Warzone</div>
+              <div class="chat-game-chevron"><i class="fas fa-chevron-down"></i></div>
+            </div>
+            <div class="channel-list">
+              <div class="channel-item" onclick="switchChannel(this,'#warzone-general','Warzone')"><span class="channel-prefix">#</span> general</div>
+              <div class="channel-item" onclick="switchChannel(this,'#lfg','Warzone')"><span class="channel-prefix">#</span> lfg <span class="channel-unread">7</span></div>
+              <div class="channel-item" onclick="switchChannel(this,'#meta-talk','Warzone')"><span class="channel-prefix">#</span> meta-talk</div>
+              <div class="channel-item" style="color:var(--teal)" onclick="showToast('teal','fas fa-volume-high','Voice','Joining Warzone voice...')"><i class="fas fa-volume-high" style="font-size:10px"></i> Match Comms <span style="font-size:9px;color:var(--teal);margin-left:auto">5 🎙️</span></div>
+            </div>
+          </div>
+          <div class="sidebar-divider"></div>
+          <div class="chat-rooms-game">
+            <div class="chat-rooms-game-header">
+              <div class="chat-game-icon" style="background:rgba(239,68,68,0.1)">🔫</div>
+              <div class="chat-game-name">Helldivers 2</div>
+              <div class="chat-game-chevron"><i class="fas fa-chevron-down"></i></div>
+            </div>
+            <div class="channel-list">
+              <div class="channel-item" onclick="switchChannel(this,'#helldivers-general','Helldivers 2')"><span class="channel-prefix">#</span> general</div>
+              <div class="channel-item" onclick="switchChannel(this,'#ops-planning','Helldivers 2')"><span class="channel-prefix">#</span> ops-planning <span class="channel-unread">2</span></div>
+              <div class="channel-item" onclick="switchChannel(this,'#stratagems','Helldivers 2')"><span class="channel-prefix">#</span> stratagems</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-main">
+          <div class="chat-room-header">
+            <div>
+              <div class="chat-room-name" id="current-channel"># elden-ring · general</div>
+              <div class="chat-room-desc" id="current-desc">General chat for everything Elden Ring</div>
+            </div>
+            <div class="chat-room-meta">
+              <div class="online-count"><span class="online-indicator"></span> <span id="online-num">18,241</span> online</div>
+              <button class="icon-btn" onclick="showToast('purple','fas fa-search','Search','Searching messages...')"><i class="fas fa-search"></i></button>
+              <button class="icon-btn" onclick="showToast('purple','fas fa-thumbtack','Pinned','3 pinned messages')"><i class="fas fa-thumbtack"></i></button>
+              <button class="icon-btn" onclick="showToast('purple','fas fa-users','Members','Viewing member list')"><i class="fas fa-users"></i></button>
+            </div>
+          </div>
+
+          <div class="chat-full-messages" id="chat-room-messages">
+            <div class="chat-system-msg">— Welcome to #elden-ring-general — 18,241 players online —</div>
+            <div class="chat-full-msg">
+              <div class="full-msg-avatar" style="background:rgba(124,58,237,0.2);color:#a78bfa">VG</div>
+              <div class="full-msg-body">
+                <div class="full-msg-header">
+                  <span class="full-msg-author" style="color:#a78bfa">ValkyrieGamer</span>
+                  <span class="msg-badge badge-mod">MOD</span>
+                  <span class="full-msg-time">Today at 14:32</span>
+                </div>
+                <div class="full-msg-text">Welcome back everyone! Today's topic: best faith/arcane hybrid builds for DLC? Drop your STR/FAI distributions below 🗡️</div>
+              </div>
+            </div>
+            <div class="chat-full-msg">
+              <div class="full-msg-avatar" style="background:rgba(0,200,160,0.15);color:#00c8a0">NK</div>
+              <div class="full-msg-body">
+                <div class="full-msg-header">
+                  <span class="full-msg-author" style="color:#00c8a0">NightKnight_ps5</span>
+                  <span class="msg-badge badge-ps">PS5</span>
+                  <span class="full-msg-time">Today at 14:33</span>
+                </div>
+                <div class="full-msg-text">Running 40 faith / 45 arcane on PS5 right now, Rivers of Blood + Catch Flame. The damage scaling with the new DLC talismans is absolutely busted</div>
+              </div>
+            </div>
+            <div class="chat-full-msg">
+              <div class="full-msg-avatar" style="background:rgba(59,130,246,0.15);color:#60a5fa">SK</div>
+              <div class="full-msg-body">
+                <div class="full-msg-header">
+                  <span class="full-msg-author" style="color:#60a5fa">SkellyKing</span>
+                  <span class="full-msg-time">Today at 14:35</span>
+                </div>
+                <div class="full-msg-text">anyone wanna co-op the Bayle the Dread fight? I've died 27 times and I'm going insane 😭 on PS5, can SharePlay if you wanna watch the suffering live</div>
+              </div>
+            </div>
+            <div class="chat-full-msg">
+              <div class="full-msg-avatar" style="background:rgba(245,158,11,0.15);color:#f59e0b">GX</div>
+              <div class="full-msg-body">
+                <div class="full-msg-header">
+                  <span class="full-msg-author" style="color:#f59e0b">GalaxyX99</span>
+                  <span class="full-msg-time">Today at 14:37</span>
+                </div>
+                <div class="full-msg-text">@SkellyKing lmao I spent 3 days on that fight. tip: stay under him and hit the wings, the tail swipe punishes you hard if you're standing back</div>
+              </div>
+            </div>
+            <div class="chat-full-msg">
+              <div class="full-msg-avatar" style="background:rgba(239,68,68,0.15);color:#f87171">CB</div>
+              <div class="full-msg-body">
+                <div class="full-msg-header">
+                  <span class="full-msg-author" style="color:#f87171">CosmicBlast_PS</span>
+                  <span class="msg-badge badge-sub">SUB</span>
+                  <span class="full-msg-time">Today at 14:38</span>
+                </div>
+                <div class="full-msg-text">EldenLord_GG is literally attempting the WR right now on the live stream 🔴 chat is going crazy, someone go watch</div>
+              </div>
+            </div>
+            <div class="chat-full-msg">
+              <div class="full-msg-avatar" style="background:rgba(124,58,237,0.2);color:#a78bfa">SD</div>
+              <div class="full-msg-body">
+                <div class="full-msg-header">
+                  <span class="full-msg-author" style="color:#a78bfa">StellarDiver_X</span>
+                  <span class="msg-badge badge-mod">MOD</span>
+                  <span class="full-msg-time">Today at 14:39</span>
+                </div>
+                <div class="full-msg-text">Reminder: co-op matchmaking is in #co-op-matchmaking, let's keep this channel for general discussion 👍 also big community event this weekend — details pinned above!</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-voice-bar">
+            <div class="voice-channel-info">
+              <div class="voice-channel-name"><i class="fas fa-volume-high"></i> Squad Up</div>
+              <div class="voice-users">ValkyrieGamer, NightKnight_ps5, StellarDiver — 3 connected</div>
+            </div>
+            <button class="voice-btn active" onclick="showToast('teal','fas fa-volume-high','Voice Active','Connected to Squad Up')"><i class="fas fa-volume-high"></i></button>
+            <button class="voice-btn" id="mic-btn" onclick="toggleMic(this)"><i class="fas fa-microphone"></i></button>
+            <button class="voice-btn" onclick="showToast('purple','fas fa-headphones','Deafen','Deafened')"><i class="fas fa-headphones"></i></button>
+            <button class="voice-btn" onclick="showToast('red','fas fa-phone-slash','Disconnected','Left voice channel')" style="color:var(--red)"><i class="fas fa-phone-slash"></i></button>
+          </div>
+
+          <div class="chat-input-full">
+            <div class="chat-input-box">
+              <button class="chat-tool" onclick="showToast('teal','fas fa-plus','Attachments','Upload image, video, clip...')"><i class="fas fa-plus-circle"></i></button>
+              <input class="chat-input-inner" id="room-msg-input" placeholder="Message #elden-ring-general..." onkeydown="sendRoomMsg(event)">
+              <div class="chat-toolbar">
+                <button class="chat-tool" onclick="showToast('purple','fas fa-face-smile','Emoji','Emoji picker')"><i class="fas fa-face-smile"></i></button>
+                <button class="chat-tool" onclick="showToast('purple','fas fa-at','Mention','@mention a player')"><i class="fas fa-at"></i></button>
+                <button class="chat-tool" onclick="showToast('blue','fab fa-playstation','SharePlay','Invite to SharePlay session')"><i class="fab fa-playstation"></i></button>
+                <button class="chat-tool" onclick="navigate('live')" title="Share stream"><i class="fas fa-tower-broadcast"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="members-panel">
+          <div class="members-section-label" style="padding-top:8px">Online — 18,241</div>
+          <div class="member-item">
+            <div class="member-avatar" style="background:rgba(124,58,237,0.2);color:#a78bfa">VG
+              <span class="member-status status-playing"></span>
+            </div>
+            <div class="member-name">ValkyrieGamer</div>
+            <div class="member-platform"><i class="fas fa-gamepad" style="color:#4ade80"></i></div>
+          </div>
+          <div class="member-item">
+            <div class="member-avatar" style="background:rgba(0,200,160,0.15);color:#00c8a0">NK
+              <span class="member-status status-playing"></span>
+            </div>
+            <div class="member-name">NightKnight</div>
+            <div class="member-platform"><i class="fab fa-playstation" style="color:#60a5fa"></i></div>
+          </div>
+          <div class="member-item">
+            <div class="member-avatar" style="background:rgba(59,130,246,0.15);color:#60a5fa">SK
+              <span class="member-status status-online"></span>
+            </div>
+            <div class="member-name">SkellyKing</div>
+            <div class="member-platform"><i class="fab fa-playstation" style="color:#60a5fa"></i></div>
+          </div>
+          <div class="member-item">
+            <div class="member-avatar" style="background:rgba(245,158,11,0.15);color:#f59e0b">GX
+              <span class="member-status status-playing"></span>
+            </div>
+            <div class="member-name">GalaxyX99</div>
+            <div class="member-platform"><i class="fab fa-steam" style="color:#7dd3fc"></i></div>
+          </div>
+          <div class="member-item">
+            <div class="member-avatar" style="background:rgba(239,68,68,0.15);color:#f87171">CB
+              <span class="member-status status-playing"></span>
+            </div>
+            <div class="member-name">CosmicBlast</div>
+            <div class="member-platform"><i class="fab fa-playstation" style="color:#60a5fa"></i></div>
+          </div>
+          <div class="member-item">
+            <div class="member-avatar" style="background:rgba(124,58,237,0.2);color:#a78bfa">SD
+              <span class="member-status status-online"></span>
+            </div>
+            <div class="member-name">StellarDiver</div>
+            <div class="member-platform"><i class="fab fa-playstation" style="color:#60a5fa"></i></div>
+          </div>
+          <div class="member-item">
+            <div class="member-avatar" style="background:rgba(34,197,94,0.15);color:#4ade80">RR
+              <span class="member-status status-away"></span>
+            </div>
+            <div class="member-name">RedRacer_ps</div>
+            <div class="member-platform"><i class="fab fa-playstation" style="color:#60a5fa"></i></div>
+          </div>
+          <div class="separator"></div>
+          <div class="members-section-label">Away</div>
+          <div class="member-item" style="opacity:0.5">
+            <div class="member-avatar" style="background:rgba(100,100,100,0.15);color:#888">EL
+              <span class="member-status status-away"></span>
+            </div>
+            <div class="member-name">EldenLord_GG</div>
+            <div class="member-platform"><i class="fas fa-tower-broadcast" style="color:var(--red)"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── SHAREPLAY PAGE ─── -->
+      <div id="page-shareplay" class="page">
+        <div class="shareplay-page">
+          <div class="shareplay-hero">
+            <div class="ps-logo-large"><i class="fab fa-playstation"></i></div>
+            <div class="shareplay-hero-text">
+              <h2>PlayStation SharePlay — Integrated</h2>
+              <p>Your PSN account is linked. Share your screen, hand over control, or join a friend's session directly from Nexus. Cross-community SharePlay is a world first.</p>
+              <button class="connect-ps-btn connected" onclick="showToast('teal','fab fa-playstation','PlayStation Linked','NightKnight_ps5 — PS5 Online')">
+                <i class="fab fa-playstation"></i> NightKnight_ps5 — Connected
+              </button>
+            </div>
+          </div>
+
+          <div class="shareplay-section-title">Linked Platforms</div>
+          <div class="account-cards">
+            <div class="account-card connected">
+              <span class="account-platform-icon">🎮</span>
+              <div class="account-platform-name">PlayStation Network</div>
+              <div class="account-status status-connected">● Connected</div>
+              <div class="account-username">NightKnight_ps5 · PS5</div>
+              <button class="connect-btn-sm" onclick="showToast('teal','fab fa-playstation','PSN','PlayStation account settings')">Manage Account</button>
+            </div>
+            <div class="account-card" onclick="showToast('blue','fab fa-steam','Steam','Connecting Steam account...')">
+              <span class="account-platform-icon">🖥️</span>
+              <div class="account-platform-name">Steam</div>
+              <div class="account-status status-disconnected">○ Not Connected</div>
+              <div class="account-username">Link your Steam library</div>
+              <button class="connect-btn-sm">Connect Steam</button>
+            </div>
+            <div class="account-card" onclick="showToast('green','fas fa-gamepad','Xbox','Connecting Xbox account...')">
+              <span class="account-platform-icon">🟢</span>
+              <div class="account-platform-name">Xbox Live</div>
+              <div class="account-status status-disconnected">○ Not Connected</div>
+              <div class="account-username">Link your Xbox Gamertag</div>
+              <button class="connect-btn-sm">Connect Xbox</button>
+            </div>
+          </div>
+
+          <div class="shareplay-section-title">Active SharePlay Sessions</div>
+          <div class="shareplay-sessions">
+            <div class="session-card">
+              <div class="session-game-icon" style="background:rgba(124,58,237,0.15)">🌌</div>
+              <div class="session-info">
+                <div class="session-game">Final Fantasy VII Rebirth</div>
+                <div class="session-host"><i class="fab fa-playstation" style="color:#60a5fa"></i> Hosted by CloudStrife_IRL · PS5</div>
+                <div class="session-tags">
+                  <span class="session-tag tag-shareplay"><i class="fab fa-playstation"></i> SharePlay</span>
+                  <span class="session-tag tag-coop">Co-op</span>
+                  <span class="session-tag tag-ps5">PS5</span>
+                </div>
+              </div>
+              <div style="text-align:right">
+                <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">2 watching · 1 playing</div>
+                <button class="join-session-btn" onclick="showToast('blue','fab fa-playstation','Joining SharePlay','Connecting to CloudStrife_IRL session...')">Join Session</button>
+              </div>
+            </div>
+            <div class="session-card">
+              <div class="session-game-icon" style="background:rgba(0,200,160,0.1)">🎯</div>
+              <div class="session-info">
+                <div class="session-game">Call of Duty: Warzone</div>
+                <div class="session-host"><i class="fab fa-playstation" style="color:#60a5fa"></i> Hosted by ValkyrieGamer · PS5</div>
+                <div class="session-tags">
+                  <span class="session-tag tag-shareplay"><i class="fab fa-playstation"></i> SharePlay</span>
+                  <span class="session-tag" style="background:rgba(245,158,11,0.1);color:var(--amber);border:1px solid rgba(245,158,11,0.25)">Squad</span>
+                  <span class="session-tag tag-ps5">PS5</span>
+                </div>
+              </div>
+              <div style="text-align:right">
+                <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">3 watching · 3 playing</div>
+                <button class="join-session-btn" onclick="showToast('blue','fab fa-playstation','Joining SharePlay','Connecting to ValkyrieGamer session...')">Join Session</button>
+              </div>
+            </div>
+            <div class="session-card">
+              <div class="session-game-icon" style="background:rgba(239,68,68,0.1)">🔫</div>
+              <div class="session-info">
+                <div class="session-game">Helldivers 2</div>
+                <div class="session-host"><i class="fab fa-playstation" style="color:#60a5fa"></i> Hosted by CosmicBlast_PS · PS5</div>
+                <div class="session-tags">
+                  <span class="session-tag tag-shareplay"><i class="fab fa-playstation"></i> SharePlay</span>
+                  <span class="session-tag tag-coop">4-Player Co-op</span>
+                  <span class="session-tag tag-ps5">PS5</span>
+                </div>
+              </div>
+              <div style="text-align:right">
+                <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">1 watching · 2 playing</div>
+                <button class="join-session-btn" onclick="showToast('blue','fab fa-playstation','Joining SharePlay','Connecting to CosmicBlast_PS session...')">Join Session</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="shareplay-section-title">Your PlayStation Trophies</div>
+          <div class="ps-trophies">
+            <div class="trophy-card">
+              <span class="trophy-icon">🏆</span>
+              <div class="trophy-name">Elden Ring Platinum</div>
+              <div class="trophy-game">Elden Ring</div>
+              <div class="trophy-rarity rarity-platinum">Platinum · 0.4%</div>
+            </div>
+            <div class="trophy-card">
+              <span class="trophy-icon">🥇</span>
+              <div class="trophy-name">Remembrance of the Rot Goddess</div>
+              <div class="trophy-game">Elden Ring DLC</div>
+              <div class="trophy-rarity rarity-gold">Gold · 12%</div>
+            </div>
+            <div class="trophy-card">
+              <span class="trophy-icon">🥈</span>
+              <div class="trophy-name">For the Liberation of Super Earth</div>
+              <div class="trophy-game">Helldivers 2</div>
+              <div class="trophy-rarity rarity-silver">Silver · 28%</div>
+            </div>
+            <div class="trophy-card">
+              <span class="trophy-icon">🥉</span>
+              <div class="trophy-name">Strategic Genius</div>
+              <div class="trophy-game">Helldivers 2</div>
+              <div class="trophy-rarity rarity-bronze">Bronze · 45%</div>
+            </div>
+          </div>
+
+          <div style="background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:24px">
+            <div style="font-family:var(--font-display);font-size:13px;font-weight:700;letter-spacing:2px;color:var(--text-muted);margin-bottom:16px;text-transform:uppercase">Start Your Own Session</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+              <button style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;cursor:pointer;text-align:center;color:var(--text-secondary);font-family:var(--font-body);font-size:13px;font-weight:600;transition:all 0.15s" onclick="showToast('blue','fab fa-playstation','SharePlay Started','Your session is open — share the link with friends!')">
+                <div style="font-size:24px;margin-bottom:8px">📺</div>
+                <div style="color:var(--text-primary);margin-bottom:4px">Share Screen</div>
+                <div style="font-size:11px;color:var(--text-muted)">Let friends watch your PS5</div>
+              </button>
+              <button style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;cursor:pointer;text-align:center;color:var(--text-secondary);font-family:var(--font-body);font-size:13px;font-weight:600;transition:all 0.15s" onclick="showToast('teal','fas fa-gamepad','Controller Share','Friend can now control your game!')">
+                <div style="font-size:24px;margin-bottom:8px">🎮</div>
+                <div style="color:var(--text-primary);margin-bottom:4px">Share Controller</div>
+                <div style="font-size:11px;color:var(--text-muted)">Let a friend take over</div>
+              </button>
+              <button style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;cursor:pointer;text-align:center;color:var(--text-secondary);font-family:var(--font-body);font-size:13px;font-weight:600;transition:all 0.15s" onclick="showToast('purple','fas fa-users','Party Play','Creating multiplayer lobby...')">
+                <div style="font-size:24px;margin-bottom:8px">👥</div>
+                <div style="color:var(--text-primary);margin-bottom:4px">Play Together</div>
+                <div style="font-size:11px;color:var(--text-muted)">Co-op with Nexus friends</div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal modal-wrapper">
+    <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+    <div class="modal-logo">NEX<span>U</span>S</div>
+    <div class="modal-tagline">ONE PLATFORM. ALL GAMERS.</div>
+    <div class="modal-title">Sign in to Nexus</div>
+    <div class="platform-login-grid">
+      <button class="platform-login-btn plat-ps" onclick="handlePlatformLogin('PlayStation')"><i class="fab fa-playstation"></i> PlayStation</button>
+      <button class="platform-login-btn plat-xbox" onclick="handlePlatformLogin('Xbox')"><i class="fas fa-gamepad"></i> Xbox Live</button>
+      <button class="platform-login-btn plat-steam" onclick="handlePlatformLogin('Steam')"><i class="fab fa-steam"></i> Steam</button>
+      <button class="platform-login-btn plat-google" onclick="handlePlatformLogin('Google')"><i class="fab fa-google"></i> Google</button>
+    </div>
+    <div class="modal-or">or</div>
+    <input class="modal-input" type="email" placeholder="Email address">
+    <input class="modal-input" type="password" placeholder="Password">
+    <button class="modal-submit" onclick="handlePlatformLogin('Email')">Sign In</button>
+    <div class="modal-switch">Don't have an account? <a onclick="showToast('purple','fas fa-user-plus','Register','Creating your Nexus account...');closeModal()">Create one free</a></div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toasts"></div>
+
+<script>
+// ═══════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════
+function navigate(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.topbar-nav button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+
+  const target = document.getElementById('page-' + page);
+  if (target) target.classList.add('active');
+
+  const navBtn = document.getElementById('nav-' + page);
+  if (navBtn) navBtn.classList.add('active');
+
+  if (page === 'live') autoFeedChat();
+}
+
+// ═══════════════════════════════════════════
+// AUTH MODAL
+// ═══════════════════════════════════════════
+function openModal() {
+  document.getElementById('auth-modal').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('auth-modal').classList.remove('open');
+}
+document.getElementById('auth-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+function handlePlatformLogin(platform) {
+  closeModal();
+  showToast('teal', 'fas fa-check-circle', 'Welcome back!', 'Signed in via ' + platform + ' — NightKnight_ps5');
+}
+
+// ═══════════════════════════════════════════
+// VOTE SYSTEM
+// ═══════════════════════════════════════════
+const votes = {};
+function parseVote(str) {
+  str = str.trim();
+  if (str.endsWith('k')) return Math.round(parseFloat(str) * 1000);
+  return parseInt(str);
+}
+function formatVote(n) {
+  if (n >= 1000) return (n / 1000).toFixed(1) + 'k';
+  return String(n);
+}
+function vote(btn, dir, id) {
+  const countEl = document.getElementById('v' + id);
+  if (!countEl) return;
+  let n = parseVote(countEl.textContent);
+  const prev = votes[id];
+  const upBtn = btn.closest('.post-vote').querySelector('.vote-btn:first-child');
+  const downBtn = btn.closest('.post-vote').querySelector('.vote-btn:last-child');
+  upBtn.classList.remove('up');
+  downBtn.classList.remove('down');
+
+  if (prev === dir) {
+    n += dir === 'up' ? -1 : 1;
+    votes[id] = null;
+  } else {
+    if (prev === 'up') n--;
+    if (prev === 'down') n++;
+    n += dir === 'up' ? 1 : -1;
+    votes[id] = dir;
+    (dir === 'up' ? upBtn : downBtn).classList.add(dir);
+  }
+  countEl.textContent = formatVote(n);
+}
+
+// ═══════════════════════════════════════════
+// TOAST SYSTEM
+// ═══════════════════════════════════════════
+function showToast(type, icon, title, sub) {
+  const container = document.getElementById('toasts');
+  const toast = document.createElement('div');
+  toast.className = 'toast toast-' + type;
+  toast.innerHTML = `<div class="toast-icon"><i class="${icon}"></i></div><div class="toast-text"><div class="toast-title">${title}</div><div class="toast-sub">${sub}</div></div>`;
+  container.appendChild(toast);
+  requestAnimationFrame(() => { requestAnimationFrame(() => { toast.classList.add('show'); }); });
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 300);
+  }, 3200);
+}
+
+// ═══════════════════════════════════════════
+// STREAM CHAT — LIVE MESSAGES
+// ═══════════════════════════════════════════
+const chatPool = [
+  { u: 'GalaxyX99', c: '#f59e0b', t: 'KEKW KEKW KEKW', b: 'GX' },
+  { u: 'RedRacer_ps', c: '#f87171', t: 'LET\'S GOOO', b: 'RR', ps: true },
+  { u: 'ProGamer99', c: '#a78bfa', t: 'what\'s the split time?', b: 'PG' },
+  { u: 'DarkSoulsVet', c: '#00c8a0', t: 'POGGERS', b: 'DS' },
+  { u: 'TrophyHunter', c: '#60a5fa', t: 'Prayge Prayge Prayge', b: 'TH', ps: true },
+  { u: 'EldenFan', c: '#f59e0b', t: 'this guy is a menace 🙏', b: 'EF' },
+  { u: 'PS5Gamer', c: '#4ade80', t: 'WR incoming??', b: 'PG', ps: true },
+  { u: 'ShadowLord', c: '#a78bfa', t: 'chat praying rn', b: 'SL' },
+  { u: 'SpeedrunFan', c: '#f87171', t: 'this is so hype omg', b: 'SF' },
+  { u: 'Vaati_clone', c: '#00c8a0', t: 'the positioning is insane', b: 'VC' },
+];
+let chatInterval = null;
+function autoFeedChat() {
+  if (chatInterval) return;
+  chatInterval = setInterval(() => {
+    const msg = chatPool[Math.floor(Math.random() * chatPool.length)];
+    addStreamChatMsg(msg.u, msg.c, msg.t, msg.b, msg.ps);
+  }, 1800);
+}
+
+function addStreamChatMsg(user, color, text, initials, isPS) {
+  const chat = document.getElementById('stream-chat');
+  if (!chat) return;
+  const div = document.createElement('div');
+  div.className = 'chat-msg';
+  div.innerHTML = `
+    <div class="msg-avatar" style="background:${color}22;color:${color}">${initials}</div>
+    <div class="msg-body">
+      <div class="msg-author" style="color:${color}">${isPS ? '<span class="msg-badge badge-ps">PS5</span>' : ''}${user}</div>
+      <div class="msg-text">${text}</div>
+    </div>`;
+  chat.appendChild(div);
+  while (chat.children.length > 20) chat.removeChild(chat.firstChild);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function sendStreamMsg(e) {
+  if (e.key === 'Enter') sendStreamMsgBtn();
+}
+function sendStreamMsgBtn() {
+  const input = document.getElementById('stream-msg-input');
+  const val = input.value.trim();
+  if (!val) return;
+  addStreamChatMsg('NightKnight_ps5', '#00c8a0', val, 'NK', true);
+  input.value = '';
+}
+
+// ═══════════════════════════════════════════
+// ROOM CHAT
+// ═══════════════════════════════════════════
+function sendRoomMsg(e) {
+  if (e.key !== 'Enter') return;
+  const input = document.getElementById('room-msg-input');
+  const val = input.value.trim();
+  if (!val) return;
+  const msgs = document.getElementById('chat-room-messages');
+  const now = new Date();
+  const time = 'Today at ' + now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+  const div = document.createElement('div');
+  div.className = 'chat-full-msg';
+  div.innerHTML = `
+    <div class="full-msg-avatar" style="background:rgba(0,200,160,0.15);color:#00c8a0">NK</div>
+    <div class="full-msg-body">
+      <div class="full-msg-header">
+        <span class="full-msg-author" style="color:#00c8a0">NightKnight_ps5</span>
+        <span class="msg-badge badge-ps">PS5</span>
+        <span class="full-msg-time">${time}</span>
+      </div>
+      <div class="full-msg-text">${val}</div>
+    </div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  input.value = '';
+}
+
+// ═══════════════════════════════════════════
+// UI HELPERS
+// ═══════════════════════════════════════════
+function setFilter(btn, type) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function toggleJoin(btn) {
+  if (btn.classList.contains('joined')) {
+    btn.classList.remove('joined');
+    btn.textContent = '+ Join';
+    showToast('purple', 'fas fa-users', 'Left Community', 'You left r/EldenRing');
+  } else {
+    btn.classList.add('joined');
+    btn.innerHTML = '✓ Joined';
+    showToast('teal', 'fas fa-users', 'Joined!', 'Welcome to r/EldenRing');
+  }
+}
+
+function switchChannel(el, channel, game) {
+  document.querySelectorAll('.channel-item').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('current-channel').textContent = '# ' + game.toLowerCase().replace(' ','-') + ' · ' + channel.replace('#','');
+  document.getElementById('current-desc').textContent = 'Chat for ' + game + ' · ' + channel;
+  showToast('purple', 'fas fa-hashtag', 'Switched Channel', 'Now in ' + channel);
+}
+
+function toggleMic(btn) {
+  btn.classList.toggle('muted');
+  const isMuted = btn.classList.contains('muted');
+  btn.innerHTML = '<i class="fas fa-' + (isMuted ? 'microphone-slash' : 'microphone') + '"></i>';
+  showToast(isMuted ? 'red' : 'teal', 'fas fa-microphone' + (isMuted ? '-slash' : ''), isMuted ? 'Muted' : 'Unmuted', isMuted ? 'Your mic is off' : 'Your mic is on');
+}
+
+function openStream() {
+  navigate('live');
+  showToast('red', 'fas fa-tower-broadcast', 'Now Live', 'EldenLord_GG — Elden Ring WR Run');
+}
+
+// Init
+showToast('purple', 'fas fa-rocket', 'Welcome to Nexus!', 'Your gaming universe starts here');
+</script>
+</body>
+</html>
