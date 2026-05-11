@@ -11,6 +11,79 @@
 /* ═══════════════════════════════════════════
    NEXUS DESIGN SYSTEM
 ═══════════════════════════════════════════ */
+
+.auth-modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.7);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
+
+.auth-box{
+    background:#1a1a1a;
+    padding:30px;
+    border-radius:12px;
+    width:350px;
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.auth-box input{
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#2a2a2a;
+    color:white;
+}
+
+.auth-box button{
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#6c5ce7;
+    color:white;
+    cursor:pointer;
+}
+
+#toggleAuth{
+    color:#aaa;
+    cursor:pointer;
+    text-align:center;
+}
+
+.create-post-box{
+    background:#1e1e1e;
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:20px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.create-post-box input,
+.create-post-box textarea{
+    background:#2a2a2a;
+    border:none;
+    padding:12px;
+    border-radius:8px;
+    color:white;
+}
+
+.create-post-box button{
+    background:#6c5ce7;
+    border:none;
+    padding:12px;
+    border-radius:8px;
+    color:white;
+    cursor:pointer;
+}
+
+
 :root {
   --bg-void: #05040f;
   --bg-deep: #07060f;
@@ -1266,7 +1339,159 @@ body {
 </style>
 </head>
 <script>
-async function loadPosts() {
+
+let isLogin = true
+
+function toggleAuthMode(){
+
+    isLogin = !isLogin
+
+    document.getElementById("authTitle")
+        .innerText = isLogin
+        ? "Login"
+        : "Create Account"
+
+    document.getElementById("username")
+        .style.display = isLogin
+        ? "none"
+        : "block"
+
+    document.getElementById("toggleAuth")
+        .innerText = isLogin
+        ? "Create account"
+        : "Already have account?"
+}
+
+async function submitAuth(){
+
+    const username =
+        document.getElementById("username").value
+
+    const email =
+        document.getElementById("email").value
+
+    const password =
+        document.getElementById("password").value
+
+    if(isLogin){
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/auth/login",
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    email,
+                    password
+                })
+            }
+        )
+
+        const data = await response.json()
+
+        if(data.token){
+
+            localStorage.setItem(
+                "token",
+                data.token
+            )
+
+            localStorage.setItem(
+                "username",
+                data.username
+            )
+
+            closeAuth()
+
+            loadPosts()
+        }
+        else{
+            alert("Login failed")
+        }
+    }
+
+    else{
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/auth/register",
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    username,
+                    email,
+                    password
+                })
+            }
+        )
+
+        const data = await response.json()
+
+        alert(data.message)
+    }
+}
+
+function closeAuth(){
+
+    document.getElementById("authModal")
+        .style.display = "none"
+}
+
+function checkLogin(){
+
+    const token = localStorage.getItem("token")
+
+    if(token){
+
+        closeAuth()
+    }
+}
+
+async function createPost(){
+
+    const token =
+        localStorage.getItem("token")
+
+    if(!token){
+        alert("Please login")
+        return
+    }
+
+    const title =
+        document.getElementById("postTitle").value
+
+    const content =
+        document.getElementById("postContent").value
+
+    const response = await fetch(
+        "http://127.0.0.1:8000/posts/",
+        {
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+                title,
+                content,
+                community_id:1
+            })
+        }
+    )
+
+    const data = await response.json()
+
+    console.log(data)
+
+    loadPosts()
+}
+
+async function loadPosts(){
 
     const response = await fetch(
         "http://127.0.0.1:8000/posts/"
@@ -1274,22 +1499,25 @@ async function loadPosts() {
 
     const posts = await response.json()
 
-    const container = document.getElementById(
-        "dynamic-posts"
-    )
+    const container =
+        document.getElementById(
+            "dynamic-posts"
+        )
 
     container.innerHTML = ""
 
     posts.reverse().forEach(post => {
 
         container.innerHTML += `
-        
+
         <div class="post-card">
+
             <div class="post-inner">
 
                 <div class="post-vote">
+
                     <button class="vote-btn">
-                        <i class="fas fa-arrow-up"></i>
+                        ↑
                     </button>
 
                     <span class="vote-count">
@@ -1297,20 +1525,19 @@ async function loadPosts() {
                     </span>
 
                     <button class="vote-btn">
-                        <i class="fas fa-arrow-down"></i>
+                        ↓
                     </button>
+
                 </div>
 
                 <div class="post-body">
 
                     <div class="post-meta">
+
                         <span class="community-tag">
                             Community #${post.community_id}
                         </span>
 
-                        <span class="post-author">
-                            posted by User #${post.user_id}
-                        </span>
                     </div>
 
                     <div class="post-title">
@@ -1324,14 +1551,52 @@ async function loadPosts() {
                 </div>
 
             </div>
-        </div>
 
+        </div>
         `
     })
 }
 
+checkLogin()
+
 loadPosts()
+
 </script>
+
+<!-- AUTH MODAL -->
+
+<div id="authModal" class="auth-modal">
+
+    <div class="auth-box">
+
+        <h2 id="authTitle">Login</h2>
+
+        <input type="text"
+               id="username"
+               placeholder="Username"
+               style="display:none;">
+
+        <input type="email"
+               id="email"
+               placeholder="Email">
+
+        <input type="password"
+               id="password"
+               placeholder="Password">
+
+        <button onclick="submitAuth()">
+            Continue
+        </button>
+
+        <p id="toggleAuth"
+           onclick="toggleAuthMode()">
+           Create account
+        </p>
+
+    </div>
+
+</div>
+
 <body>
 
 <div id="app">
@@ -1426,6 +1691,23 @@ loadPosts()
               <button class="filter-btn" onclick="setFilter(this,'rising')"><i class="fas fa-chart-line"></i> Rising</button>
             </div>
           </div>
+          <div class="create-post-box">
+
+    <input
+        type="text"
+        id="postTitle"
+        placeholder="Post title">
+
+    <textarea
+        id="postContent"
+        placeholder="What's happening in gaming today?">
+    </textarea>
+
+    <button onclick="createPost()">
+        Create Post
+    </button>
+
+</div>
           <div id="dynamic-posts"></div>
 
           <!-- POST 1 — VIDEO CLIP -->
