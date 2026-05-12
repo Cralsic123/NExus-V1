@@ -6,6 +6,9 @@ from app.database import engine, Base
 from app.routes import auth
 from app.routes import posts
 from app.routes import communities
+from app.routes import ws
+from app.routes import chat
+
 
 # import models
 from app.models.user import User
@@ -17,7 +20,7 @@ from app.models.vote import Vote
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
-
+app.include_router(chat.router)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -28,6 +31,7 @@ app.add_middleware(
 
 app.include_router(auth.router)
 app.include_router(posts.router)
+app.include_router(ws.router)
 app.include_router(communities.router)
 
 @app.get("/")
